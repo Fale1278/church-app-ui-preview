@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Grace Fellowship — UI Prototype v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* mobile app — dark canvas */
+    --app-bg:#0A090E;
+    --app-surface:#151319;
+    --app-surface-2:#1E1B24;
+    --text-hi:#F6F4F8;
+    --text-mid:#9C97A8;
+    --text-low:#615C6C;
+    --line:rgba(255,255,255,0.07);
+
+    /* beam gradient — the signature */
+    --violet:#1F5D8C;
+    --magenta:#1E8A78;
+    --amber:#E0A030;
+    --beam: linear-gradient(120deg, var(--violet) 0%, var(--magenta) 52%, var(--amber) 100%);
+
+    /* admin — light desktop panel */
+    --adm-bg:#F5F4F8;
+    --adm-surface:#FFFFFF;
+    --adm-ink:#15131C;
+    --adm-ink-soft:#6C6678;
+    --adm-line:rgba(21,19,28,0.08);
+
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:var(--font-body);
+    background:transparent;
+    color:#1C1A22;
+    padding:32px 16px 56px;
+  }
+  .rig{ max-width:1200px; margin:0 auto; }
+  .rig-head{ text-align:center; margin-bottom:38px; }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--magenta); display:block; margin-bottom:10px;
+  }
+  .rig-head h1{
+    font-family:var(--font-display); font-weight:700; font-size:clamp(28px,4vw,40px);
+    color:#15131C; letter-spacing:-0.01em;
+  }
+  .rig-head p{
+    margin-top:10px; color:#5F5A6B; font-size:14px; max-width:540px;
+    margin-left:auto; margin-right:auto; line-height:1.55;
+  }
+
+  .stage{ display:flex; gap:40px; align-items:flex-start; justify-content:center; flex-wrap:wrap; }
+  .phone-wrap{ display:flex; flex-direction:column; align-items:center; gap:16px; }
+  .phone-label{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em;
+    text-transform:uppercase; color:#8A8494; text-align:center;
+  }
+
+  /* ===== phone ===== */
+  .phone{
+    width:340px; height:704px; background:#000; border-radius:46px; padding:11px;
+    box-shadow:0 40px 70px -25px rgba(0,0,0,0.55);
+  }
+  .screen{
+    width:100%; height:100%; background:var(--app-bg); border-radius:36px;
+    overflow:hidden; position:relative; display:flex; flex-direction:column;
+  }
+  .notch{
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:120px; height:24px; background:#000; border-radius:0 0 16px 16px; z-index:20;
+  }
+  .status{
+    display:flex; justify-content:space-between; padding:16px 26px 6px;
+    font-family:var(--font-mono); font-size:11px; color:var(--text-mid); flex-shrink:0;
+  }
+
+  .view{ display:none; flex-direction:column; flex:1; min-height:0; }
+  .view.active{ display:flex; }
+  .scroll{ flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+  .scroll::-webkit-scrollbar{ display:none; }
+
+  /* ===== beam glow header ===== */
+  .beam-glow{
+    position:relative;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(31,93,140,0.55), transparent 42%),
+      radial-gradient(circle at 90% 20%, rgba(30,138,120,0.4), transparent 40%),
+      radial-gradient(circle at 60% 90%, rgba(224,160,48,0.28), transparent 45%),
+      var(--app-bg);
+    overflow:hidden;
+  }
+  .beam-glow::after{
+    content:'';
+    position:absolute; top:0; left:0; right:0; bottom:0;
+    background:radial-gradient(ellipse at 50% -20%, rgba(255,255,255,0.06), transparent 60%);
+    pointer-events:none;
+  }
+
+  .home-header{ padding:12px 20px 20px; position:relative; z-index:2; }
+  .home-header .row1{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+  .brandmark{ display:flex; align-items:center; gap:9px; }
+  .brandmark .mark{
+    width:24px; height:24px; border-radius:8px; background:var(--beam);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .brandmark .mark svg{ width:13px; height:13px; }
+  .brandmark span{ font-family:var(--font-display); font-weight:700; font-size:16px; color:var(--text-hi); letter-spacing:-0.01em; }
+  .icon-btn{
+    width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08);
+    display:flex; align-items:center; justify-content:center; border:1px solid var(--line);
+  }
+  .icon-btn svg{ width:16px; height:16px; }
+
+  .live-card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:18px; padding:5px; display:flex; align-items:center; gap:12px;
+    backdrop-filter:blur(6px);
+  }
+  .live-thumb{
+    width:52px; height:52px; border-radius:14px; background:var(--beam);
+    flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  }
+  .live-thumb svg{ width:20px; height:20px; }
+  .live-card .txt{ flex:1; padding:4px 0; }
+  .live-card .txt .tag{
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.08em; color:var(--magenta);
+    text-transform:uppercase; font-weight:500;
+  }
+  .live-card .txt .tag i{ width:6px; height:6px; border-radius:50%; background:var(--magenta); animation:pulse 1.6s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+  .live-card .txt .title{ font-family:var(--font-display); font-size:14.5px; font-weight:600; color:var(--text-hi); margin-top:3px; }
+  .live-card .cta{
+    font-family:var(--font-mono); font-size:10px; letter-spacing:0.04em;
+    background:var(--text-hi); color:#0A090E; padding:8px 14px; border-radius:20px;
+    font-weight:600; text-transform:uppercase; margin-right:6px; flex-shrink:0;
+  }
+
+  /* ===== stories row (gradient ring signature) ===== */
+  .stories{ display:flex; gap:14px; padding:16px 20px 6px; overflow-x:auto; }
+  .story{ display:flex; flex-direction:column; align-items:center; gap:6px; flex-shrink:0; width:56px; }
+  .ring{
+    width:54px; height:54px; border-radius:50%; padding:2.5px;
+    background:var(--beam);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ring.seen{ background:var(--app-surface-2); }
+  .ring .inner{
+    width:100%; height:100%; border-radius:50%; background:var(--app-bg);
+    padding:2.5px; display:flex; align-items:center; justify-content:center;
+  }
+  .ring .avatar{ width:100%; height:100%; border-radius:50%; }
+  .story span{ font-family:var(--font-mono); font-size:9px; color:var(--text-mid); text-align:center; }
+
+  .section-label{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--text-low); padding:18px 20px 10px;
+  }
+
+  /* ===== feed ===== */
+  .post{ padding:14px 20px; border-bottom:1px solid var(--line); }
+  .post .meta{ display:flex; align-items:center; gap:10px; margin-bottom:11px; }
+  .avatar{ width:34px; height:34px; border-radius:50%; flex-shrink:0; background:#5C566A; }
+  .meta .who .name{ font-size:13px; font-weight:600; color:var(--text-hi); }
+  .meta .who .sub{ font-family:var(--font-mono); font-size:10px; color:var(--text-low); margin-top:1px; }
+  .post .body{ font-size:13.5px; line-height:1.55; color:#DBD7E2; margin-bottom:11px; }
+  .post .media{
+    height:180px; border-radius:14px;
+    background:linear-gradient(155deg, #123A52 0%, #1E6B72 45%, #D99A3A 100%);
+    margin-bottom:11px; position:relative; overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .post .media::after{
+    content:attr(data-label); position:absolute; bottom:10px; left:12px;
+    font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase;
+    color:rgba(255,255,255,0.85); background:rgba(0,0,0,0.28); padding:4px 9px; border-radius:20px;
+    backdrop-filter:blur(4px);
+  }
+  .post .media.alt{ background:linear-gradient(155deg, #14293A 0%, #1E5A5A 50%, #E0A030 100%); }
+
+  /* ===== reels ===== */
+  .reel-screen{ position:relative; flex:1; background:#000; overflow:hidden; }
+  .reel-bg{
+    position:absolute; top:0; left:0; right:0; bottom:0;
+    background:linear-gradient(200deg, #123049 0%, #1E6B6B 38%, #D99A3A 100%);
+  }
+  .reel-bg::after{
+    content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+    background:linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.05) 45%, rgba(0,0,0,0.35) 100%);
+  }
+  .reel-top{
+    position:relative; z-index:3; display:flex; justify-content:center; gap:6px;
+    padding:18px 20px 0;
+  }
+  .reel-top .seg{ flex:1; max-width:60px; height:2.5px; border-radius:2px; background:rgba(255,255,255,0.3); }
+  .reel-top .seg.on{ background:#fff; }
+  .reel-content{ position:relative; z-index:2; height:100%; display:flex; flex-direction:column; justify-content:flex-end; }
+  .reel-rail{
+    position:absolute; right:12px; bottom:130px; z-index:4;
+    display:flex; flex-direction:column; align-items:center; gap:20px;
+  }
+  .reel-rail .item{ display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .reel-rail .ico{
+    width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.14);
+    backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center;
+    border:1px solid rgba(255,255,255,0.2);
+  }
+  .reel-rail .ico svg{ width:20px; height:20px; }
+  .reel-rail span{ font-family:var(--font-mono); font-size:10px; color:#fff; }
+  .reel-caption{
+    position:relative; z-index:3; padding:0 78px 26px 20px;
+    color:#fff;
+  }
+  .reel-caption .who{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .reel-caption .who .ring{ width:34px; height:34px; padding:2px; }
+  .reel-caption .who .name{ font-family:var(--font-display); font-weight:700; font-size:13.5px; }
+  .reel-caption .txt{ font-size:12.5px; line-height:1.5; color:rgba(255,255,255,0.92); }
+  .reel-caption .tag{
+    display:inline-flex; align-items:center; gap:5px; margin-top:10px;
+    font-family:var(--font-mono); font-size:10px; background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(6px); padding:5px 10px; border-radius:20px; color:#fff;
+  }
+  .reel-caption .tag i{ width:6px; height:6px; border-radius:50%; background:var(--amber); }
+  .post .actions{ display:flex; gap:20px; }
+  .post .actions .a{ display:flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:11px; color:var(--text-mid); }
+  .post .actions svg{ width:15px; height:15px; }
+
+  /* ===== tab bar ===== */
+  .tabbar{ display:flex; border-top:1px solid var(--line); background:#0D0C11; padding:10px 10px 16px; flex-shrink:0; }
+  .tab{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:5px;
+    font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.04em; color:var(--text-low);
+    text-transform:uppercase; cursor:pointer; background:none; border:none; position:relative;
+  }
+  .tab svg{ width:19px; height:19px; stroke:var(--text-low); fill:none; stroke-width:1.6; }
+  .tab.on{ color:var(--text-hi); }
+  .tab.on svg{ stroke:var(--text-hi); }
+  .tab.on::before{
+    content:''; position:absolute; top:-10px; width:16px; height:2.5px; border-radius:2px; background:var(--beam);
+  }
+
+  /* ===== live view ===== */
+  .live-stage{
+    height:240px; position:relative; display:flex; align-items:flex-end; flex-shrink:0; overflow:hidden;
+    background:
+      radial-gradient(circle at 25% 20%, rgba(31,93,140,0.6), transparent 50%),
+      radial-gradient(circle at 85% 60%, rgba(30,138,120,0.45), transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(224,160,48,0.3), transparent 55%),
+      #0D0B12;
+  }
+  .waveform{ display:flex; align-items:flex-end; gap:3px; padding:0 20px 20px; height:64px; width:100%; position:relative; z-index:2; }
+  .waveform i{ display:block; width:4px; border-radius:2px; background:var(--beam); opacity:0.9; }
+  .live-badge{
+    position:absolute; top:18px; left:20px; background:rgba(0,0,0,0.35); backdrop-filter:blur(6px);
+    color:#fff; font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em;
+    padding:6px 11px; border-radius:20px; display:flex; align-items:center; gap:6px; text-transform:uppercase;
+    border:1px solid rgba(255,255,255,0.15); z-index:3;
+  }
+  .live-badge .d{ width:6px; height:6px; border-radius:50%; background:var(--magenta); }
+  .viewers{
+    position:absolute; top:18px; right:20px; color:#fff; font-family:var(--font-mono); font-size:10.5px;
+    background:rgba(0,0,0,0.35); backdrop-filter:blur(6px); padding:6px 11px; border-radius:20px; z-index:3;
+    border:1px solid rgba(255,255,255,0.15);
+  }
+  .live-info{ padding:18px 20px; border-bottom:1px solid var(--line); }
+  .live-info h3{ font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--text-hi); margin-bottom:5px; }
+  .live-info .host{ font-family:var(--font-mono); font-size:11px; color:var(--text-mid); margin-bottom:16px; }
+  .live-actions{ display:flex; gap:10px; }
+  .btn-primary{
+    flex:1; background:var(--beam); color:#0A090E; text-align:center; padding:12px;
+    border-radius:14px; font-size:12.5px; font-weight:700; font-family:var(--font-display);
+  }
+  .btn-ghost{
+    flex:1; border:1px solid var(--line); color:var(--text-hi); text-align:center; padding:12px;
+    border-radius:14px; font-size:12.5px; font-weight:600;
+  }
+  .chat-preview{ padding:8px 20px 20px; }
+  .chat-line{ display:flex; gap:9px; margin-bottom:13px; align-items:flex-start; }
+  .chat-line .avatar{ width:24px; height:24px; }
+  .chat-line .txt{ font-size:12.5px; line-height:1.4; color:#DBD7E2; }
+  .chat-line .txt b{ font-weight:600; color:var(--text-hi); }
+  .chat-line .txt span{ color:var(--text-mid); }
+
+  /* ===== groups ===== */
+  .group-row{ display:flex; align-items:center; gap:12px; padding:14px 20px; border-bottom:1px solid var(--line); }
+  .group-icon{
+    width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:700; font-size:15px; color:#0A090E; flex-shrink:0; background:var(--beam);
+  }
+  .group-row .info{ flex:1; min-width:0; }
+  .group-row .info .name{ font-size:13.5px; font-weight:600; color:var(--text-hi); margin-bottom:2px; }
+  .group-row .info .last{ font-size:12px; color:var(--text-mid); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .group-row .meta{ text-align:right; flex-shrink:0; }
+  .group-row .meta .time{ font-family:var(--font-mono); font-size:10px; color:var(--text-low); margin-bottom:6px; }
+  .badge-count{
+    background:var(--magenta); color:#fff; font-family:var(--font-mono);
+    font-size:9.5px; padding:2px 6px; border-radius:20px; display:inline-block; font-weight:600;
+  }
+
+  /* ===== admin (light) ===== */
+  .admin{
+    width:660px; max-width:100%; background:var(--adm-surface); border-radius:22px; overflow:hidden;
+    box-shadow:0 40px 70px -30px rgba(20,15,30,0.28); border:1px solid var(--adm-line);
+  }
+  .admin-top{
+    padding:24px 26px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(31,93,140,0.7), transparent 45%),
+      radial-gradient(circle at 90% 40%, rgba(30,138,120,0.5), transparent 45%),
+      #0A090E;
+  }
+  .admin-top .who{ display:flex; align-items:center; gap:12px; position:relative; z-index:2; }
+  .admin-top .who .mark{ width:30px; height:30px; border-radius:9px; background:var(--beam); display:flex; align-items:center; justify-content:center; }
+  .admin-top .who .mark svg{ width:16px; height:16px; }
+  .admin-top h2{ font-family:var(--font-display); font-size:17px; font-weight:700; color:#fff; }
+  .admin-top .sub{ font-family:var(--font-mono); font-size:10.5px; color:rgba(255,255,255,0.6); margin-top:2px; }
+  .admin-body{ padding:26px; background:var(--adm-bg); }
+  .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:26px; }
+  .stat{ background:var(--adm-surface); border:1px solid var(--adm-line); border-radius:16px; padding:16px 14px; border-top:3px solid; }
+  .stat.s1{ border-top-color:var(--violet); }
+  .stat.s2{ border-top-color:var(--magenta); }
+  .stat.s3{ border-top-color:var(--amber); }
+  .stat.s4{ border-top-color:var(--violet); }
+  .stat .num{ font-family:var(--font-display); font-size:23px; font-weight:700; color:var(--adm-ink); }
+  .stat .lab{ font-family:var(--font-mono); font-size:9.5px; color:var(--adm-ink-soft); text-transform:uppercase; letter-spacing:0.04em; margin-top:5px; }
+  .admin-section{ background:var(--adm-surface); border:1px solid var(--adm-line); border-radius:16px; padding:18px 20px; margin-bottom:16px; }
+  .admin-section h4{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--adm-ink-soft); margin-bottom:12px;
+  }
+  .queue-row{ display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--adm-line); }
+  .queue-row:last-child{ border-bottom:none; padding-bottom:0; }
+  .queue-thumb{ width:38px; height:38px; border-radius:10px; background:#EDEBF2; flex-shrink:0; }
+  .queue-row .info{ flex:1; }
+  .queue-row .info .t{ font-size:12.5px; font-weight:600; color:var(--adm-ink); }
+  .queue-row .info .s{ font-family:var(--font-mono); font-size:10px; color:var(--adm-ink-soft); margin-top:1px; }
+  .pill{ font-family:var(--font-mono); font-size:9.5px; padding:5px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:0.04em; font-weight:600; }
+  .pill.flag{ background:#FBE7DD; color:#B5502A; }
+  .pill.ok{ background:#E6F4EA; color:#2E7D46; }
+  .pill.live{ background:#E1EEF6; color:#1F5D8C; }
+
+  .chart-row{ display:flex; align-items:flex-end; gap:8px; height:80px; padding-top:8px; }
+  .chart-row .bar{ flex:1; border-radius:6px 6px 3px 3px; background:linear-gradient(180deg, var(--violet), var(--magenta)); position:relative; }
+  .chart-row .bar.today{ background:linear-gradient(180deg, var(--amber), var(--magenta)); }
+  .chart-labels{ display:flex; gap:8px; margin-top:8px; }
+  .chart-labels span{ flex:1; text-align:center; font-family:var(--font-mono); font-size:9px; color:var(--adm-ink-soft); text-transform:uppercase; }
+
+  @media (max-width:760px){ .stat-grid{ grid-template-columns:repeat(2,1fr); } }
+</style>
+</head>
+<body>
+
+<div class="rig">
+  <div class="rig-head">
+    <span class="eyebrow">Grace Fellowship — v3 Prototype</span>
+    <h1>Built to feel like an app, not a brochure</h1>
+    <p>Tap the bottom tabs to move between Home, Live and Groups. Placeholder branding — swap "Grace Fellowship" and the mark once naming is confirmed.</p>
+  </div>
+
+  <div class="stage">
+
+    <!-- ============ PHONE ============ -->
+    <div class="phone-wrap">
+      <span class="phone-label">Mobile — congregation</span>
+      <div class="phone">
+        <div class="screen">
+          <div class="notch"></div>
+
+          <!-- HOME -->
+          <div class="view active" id="view-home">
+            <div class="beam-glow">
+              <div class="status"><span>9:41</span><span>Grace Fellowship</span></div>
+              <div class="home-header">
+                <div class="row1">
+                  <div class="brandmark">
+                    <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#0A090E" stroke-width="2.2"><path d="M12 2v20M2 12h20"/></svg></div>
+                    <span>Home</span>
+                  </div>
+                  <div class="icon-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#F6F4F8" stroke-width="1.7"><path d="M6 8a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>
+                  </div>
+                </div>
+                <div class="live-card">
+                  <div class="live-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#0A090E" stroke-width="2"><path d="M5 3v18l15-9L5 3Z"/></svg></div>
+                  <div class="txt">
+                    <span class="tag"><i></i>Live now</span>
+                    <div class="title">Sunday Worship — Bishop Dulfa</div>
+                  </div>
+                  <span class="cta">Join</span>
+                </div>
+              </div>
+              <div class="stories">
+                <div class="story"><div class="ring"><div class="inner"><div class="avatar" style="background:#8B84A0;"></div></div></div><span>Youth</span></div>
+                <div class="story"><div class="ring"><div class="inner"><div class="avatar" style="background:#7C7488;"></div></div></div><span>Choir</span></div>
+                <div class="story"><div class="ring seen"><div class="inner"><div class="avatar" style="background:#6A6478;"></div></div></div><span>Maria S.</span></div>
+                <div class="story"><div class="ring seen"><div class="inner"><div class="avatar" style="background:#5C566A;"></div></div></div><span>Enzo R.</span></div>
+                <div class="story"><div class="ring"><div class="inner"><div class="avatar" style="background:#7C7488;"></div></div></div><span>Missions</span></div>
+              </div>
+            </div>
+            <div class="scroll">
+              <div class="section-label">This week</div>
+              <div class="post">
+                <div class="meta">
+                  <div class="avatar"></div>
+                  <div class="who"><div class="name">Youth Ministry</div><div class="sub">2 HOURS AGO</div></div>
+                </div>
+                <div class="body">Praise night rehearsal moved to Thursday 6PM. See you all at the fellowship hall!</div>
+                <div class="media" data-label="Photo"></div>
+                <div class="actions">
+                  <span class="a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg> 48</span>
+                  <span class="a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg> 12</span>
+                </div>
+              </div>
+              <div class="post">
+                <div class="meta">
+                  <div class="avatar" style="background:#7C8B99;"></div>
+                  <div class="who"><div class="name">Sis. Maria Santos</div><div class="sub">YESTERDAY</div></div>
+                </div>
+                <div class="body">Thank you all for the prayers for my mother's recovery. God is faithful.</div>
+                <div class="actions">
+                  <span class="a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg> 96</span>
+                  <span class="a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg> 31</span>
+                </div>
+              </div>
+              <div class="post">
+                <div class="meta">
+                  <div class="avatar" style="background:#D99A3A;"></div>
+                  <div class="who"><div class="name">Grace Fellowship</div><div class="sub">2 DAYS AGO</div></div>
+                </div>
+                <div class="body">Replay of last Sunday's message, "Faith Over Fear," is now up. Tap Live to catch up.</div>
+                <div class="media alt" data-label="Sermon replay · 42 min"></div>
+                <div class="actions">
+                  <span class="a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg> 210</span>
+                  <span class="a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg> 44</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LIVE -->
+          <div class="view" id="view-live">
+            <div class="scroll" style="padding-top:24px;">
+              <div class="live-stage">
+                <span class="live-badge"><span class="d"></span>Live</span>
+                <span class="viewers">312 watching</span>
+                <div class="waveform" id="wave"></div>
+              </div>
+              <div class="live-info">
+                <h3>Sunday Worship Service</h3>
+                <div class="host">Bishop Bernard Dulfa · Multi-speaker session</div>
+                <div class="live-actions">
+                  <span class="btn-primary">Join audio</span>
+                  <span class="btn-ghost">Remind me</span>
+                </div>
+              </div>
+              <div class="section-label">Live chat</div>
+              <div class="chat-preview">
+                <div class="chat-line"><div class="avatar" style="width:24px;height:24px;"></div><div class="txt"><b>Joyce A.</b> Amen! God bless this ministry</div></div>
+                <div class="chat-line"><div class="avatar" style="width:24px;height:24px;background:#7C8B99;"></div><div class="txt"><b>Paolo R.</b> <span>watching from Cebu today</span></div></div>
+                <div class="chat-line"><div class="avatar" style="width:24px;height:24px;background:#D99A3A;"></div><div class="txt"><b>Youth Ministry</b> <span>praise dance video after service!</span></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- REELS -->
+          <div class="view" id="view-reels">
+            <div class="reel-screen">
+              <div class="reel-bg"></div>
+              <div class="reel-top">
+                <span class="seg on"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span>
+              </div>
+              <div class="reel-rail">
+                <div class="item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg></div><span>412</span></div>
+                <div class="item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg></div><span>58</span></div>
+                <div class="item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14"/></svg></div><span>Share</span></div>
+              </div>
+              <div class="reel-content">
+                <div class="reel-caption">
+                  <div class="who">
+                    <div class="ring"><div class="inner" style="padding:2px;"><div class="avatar" style="background:#D99A3A;"></div></div></div>
+                    <span class="name">Youth Ministry</span>
+                  </div>
+                  <div class="txt">Worship night highlights — thank you to everyone who came out! 🎤</div>
+                  <span class="tag"><i></i>Reel · 0:24</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GROUPS -->
+          <div class="view" id="view-groups">
+            <div class="status" style="padding-top:20px;"><span>9:41</span><span></span></div>
+            <div style="padding:8px 20px 16px;">
+              <div style="font-family:var(--font-display); font-weight:700; font-size:21px; color:var(--text-hi);">Groups</div>
+            </div>
+            <div class="scroll">
+              <div class="group-row">
+                <div class="group-icon">YM</div>
+                <div class="info"><div class="name">Youth Ministry</div><div class="last">Sis. Grace: See everyone Thursday!</div></div>
+                <div class="meta"><div class="time">2m</div><span class="badge-count">3</span></div>
+              </div>
+              <div class="group-row">
+                <div class="group-icon">CH</div>
+                <div class="info"><div class="name">Choir &amp; Worship Team</div><div class="last">Practice recording uploaded</div></div>
+                <div class="meta"><div class="time">1h</div></div>
+              </div>
+              <div class="group-row">
+                <div class="group-icon">BS</div>
+                <div class="info"><div class="name">Bible Study — Tuesdays</div><div class="last">Bro. Enzo: Read Romans 8 before we meet</div></div>
+                <div class="meta"><div class="time">3h</div><span class="badge-count">12</span></div>
+              </div>
+              <div class="group-row">
+                <div class="group-icon">OU</div>
+                <div class="info"><div class="name">Outreach &amp; Missions</div><div class="last">Planning meeting notes shared</div></div>
+                <div class="meta"><div class="time">Yesterday</div></div>
+              </div>
+              <div class="group-row">
+                <div class="group-icon">PR</div>
+                <div class="info"><div class="name">Prayer Warriors</div><div class="last">Pastor Ana: Let's cover the sick list</div></div>
+                <div class="meta"><div class="time">2d</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tabbar">
+            <button class="tab on" data-view="view-home">
+              <svg viewBox="0 0 24 24"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg>
+              Home
+            </button>
+            <button class="tab" data-view="view-live">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3.2M12 17.8V21M21 12h-3.2M6.2 12H3"/></svg>
+              Live
+            </button>
+            <button class="tab" data-view="view-reels">
+              <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="m10.5 9 4 3-4 3V9Z" fill="currentColor" stroke="none"/></svg>
+              Reels
+            </button>
+            <button class="tab" data-view="view-groups">
+              <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 19c.5-3 2.7-5 5.5-5s5 2 5.5 5"/><path d="M14.5 15.2c2 .3 3.5 1.9 4 3.8"/></svg>
+              Groups
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ ADMIN ============ -->
+    <div class="phone-wrap" style="align-items:stretch;">
+      <span class="phone-label" style="text-align:center;">Web — admin dashboard</span>
+      <div class="admin">
+        <div class="admin-top">
+          <div class="who">
+            <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#0A090E" stroke-width="2.2"><path d="M12 2v20M2 12h20"/></svg></div>
+            <div>
+              <h2>Grace Fellowship Admin</h2>
+              <div class="sub">SIGNED IN AS BISHOP B. DULFA</div>
+            </div>
+          </div>
+        </div>
+        <div class="admin-body">
+          <div class="stat-grid">
+            <div class="stat s1"><div class="num">2,140</div><div class="lab">Members</div></div>
+            <div class="stat s2"><div class="num">312</div><div class="lab">Live viewers now</div></div>
+            <div class="stat s3"><div class="num">4</div><div class="lab">Flagged posts</div></div>
+            <div class="stat s4"><div class="num">3</div><div class="lab">Sessions this week</div></div>
+          </div>
+
+          <div class="admin-section">
+            <h4>Weekly engagement</h4>
+            <div class="chart-row">
+              <div class="bar" style="height:42%;"></div>
+              <div class="bar" style="height:58%;"></div>
+              <div class="bar" style="height:38%;"></div>
+              <div class="bar" style="height:70%;"></div>
+              <div class="bar" style="height:52%;"></div>
+              <div class="bar" style="height:64%;"></div>
+              <div class="bar today" style="height:92%;"></div>
+            </div>
+            <div class="chart-labels">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <h4>Moderation queue</h4>
+            <div class="queue-row">
+              <div class="queue-thumb"></div>
+              <div class="info"><div class="t">Photo post — Outreach &amp; Missions</div><div class="s">Flagged by AI · possible sensitive image</div></div>
+              <span class="pill flag">Review</span>
+            </div>
+            <div class="queue-row">
+              <div class="queue-thumb"></div>
+              <div class="info"><div class="t">Comment on "Faith Over Fear"</div><div class="s">Flagged · reported by 1 member</div></div>
+              <span class="pill flag">Review</span>
+            </div>
+            <div class="queue-row">
+              <div class="queue-thumb"></div>
+              <div class="info"><div class="t">Choir practice video</div><div class="s">Auto-cleared by AI moderation</div></div>
+              <span class="pill ok">Cleared</span>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <h4>Live sessions</h4>
+            <div class="queue-row">
+              <div class="queue-thumb" style="background:linear-gradient(135deg,#DCEBF2,#D8EFE6);"></div>
+              <div class="info"><div class="t">Sunday Worship Service</div><div class="s">Bishop Dulfa · started 42 min ago</div></div>
+              <span class="pill live">Live</span>
+            </div>
+            <div class="queue-row">
+              <div class="queue-thumb"></div>
+              <div class="info"><div class="t">Midweek Bible Study</div><div class="s">Bro. Enzo · scheduled Tue, 7:00 PM</div></div>
+              <span class="pill ok">Scheduled</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const bars = document.getElementById('wave');
+  for(let i=0;i<40;i++){
+    const b = document.createElement('i');
+    const h = 8 + Math.random()*46;
+    b.style.height = h+'px';
+    bars.appendChild(b);
+  }
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+      document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+      tab.classList.add('on');
+      document.getElementById(tab.dataset.view).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
