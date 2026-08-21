@@ -7,14 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* mobile app — dark canvas */
-    --app-bg:#0A090E;
-    --app-surface:#151319;
-    --app-surface-2:#1E1B24;
-    --text-hi:#F6F4F8;
-    --text-mid:#9C97A8;
-    --text-low:#615C6C;
-    --line:rgba(255,255,255,0.07);
+    /* mobile app — light canvas */
+    --app-bg:#FFFFFF;
+    --app-surface:#F7F6FA;
+    --app-surface-2:#EFEDF3;
+    --text-hi:#18161E;
+    --text-mid:#6E6980;
+    --text-low:#A29DB0;
+    --line:rgba(24,22,30,0.09);
 
     /* beam gradient — the signature */
     --violet:#1F5D8C;
@@ -85,25 +85,9 @@
   .scroll{ flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
   .scroll::-webkit-scrollbar{ display:none; }
 
-  /* ===== beam glow header ===== */
-  .beam-glow{
-    position:relative;
-    background:
-      radial-gradient(circle at 15% 0%, rgba(31,93,140,0.55), transparent 42%),
-      radial-gradient(circle at 90% 20%, rgba(30,138,120,0.4), transparent 40%),
-      radial-gradient(circle at 60% 90%, rgba(224,160,48,0.28), transparent 45%),
-      var(--app-bg);
-    overflow:hidden;
-  }
-  .beam-glow::after{
-    content:'';
-    position:absolute; top:0; left:0; right:0; bottom:0;
-    background:radial-gradient(ellipse at 50% -20%, rgba(255,255,255,0.06), transparent 60%);
-    pointer-events:none;
-  }
-
-  .home-header{ padding:12px 20px 20px; position:relative; z-index:2; }
-  .home-header .row1{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+  /* ===== home header (light, no full-bleed glow) ===== */
+  .home-header{ padding:16px 20px 16px; background:var(--app-bg); }
+  .home-header .row1{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
   .brandmark{ display:flex; align-items:center; gap:9px; }
   .brandmark .mark{
     width:24px; height:24px; border-radius:8px; background:var(--beam);
@@ -112,34 +96,35 @@
   .brandmark .mark svg{ width:13px; height:13px; }
   .brandmark span{ font-family:var(--font-display); font-weight:700; font-size:16px; color:var(--text-hi); letter-spacing:-0.01em; }
   .icon-btn{
-    width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.08);
+    width:34px; height:34px; border-radius:50%; background:var(--app-surface);
     display:flex; align-items:center; justify-content:center; border:1px solid var(--line);
   }
   .icon-btn svg{ width:16px; height:16px; }
 
   .live-card{
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.12);
-    border-radius:18px; padding:5px; display:flex; align-items:center; gap:12px;
-    backdrop-filter:blur(6px);
+    background:var(--beam);
+    border:none;
+    border-radius:18px; padding:6px; display:flex; align-items:center; gap:12px;
+    box-shadow:0 14px 28px -14px rgba(31,93,140,0.45);
   }
   .live-thumb{
-    width:52px; height:52px; border-radius:14px; background:var(--beam);
+    width:52px; height:52px; border-radius:14px; background:rgba(255,255,255,0.22);
+    border:1px solid rgba(255,255,255,0.3);
     flex-shrink:0; display:flex; align-items:center; justify-content:center;
   }
   .live-thumb svg{ width:20px; height:20px; }
   .live-card .txt{ flex:1; padding:4px 0; }
   .live-card .txt .tag{
     display:inline-flex; align-items:center; gap:5px;
-    font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.08em; color:var(--magenta);
+    font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.08em; color:#fff;
     text-transform:uppercase; font-weight:500;
   }
-  .live-card .txt .tag i{ width:6px; height:6px; border-radius:50%; background:var(--magenta); animation:pulse 1.6s infinite; }
+  .live-card .txt .tag i{ width:6px; height:6px; border-radius:50%; background:#fff; animation:pulse 1.6s infinite; }
   @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
-  .live-card .txt .title{ font-family:var(--font-display); font-size:14.5px; font-weight:600; color:var(--text-hi); margin-top:3px; }
+  .live-card .txt .title{ font-family:var(--font-display); font-size:14.5px; font-weight:600; color:#fff; margin-top:3px; }
   .live-card .cta{
     font-family:var(--font-mono); font-size:10px; letter-spacing:0.04em;
-    background:var(--text-hi); color:#0A090E; padding:8px 14px; border-radius:20px;
+    background:#fff; color:#14293A; padding:8px 14px; border-radius:20px;
     font-weight:600; text-transform:uppercase; margin-right:6px; flex-shrink:0;
   }
 
@@ -170,7 +155,7 @@
   .avatar{ width:34px; height:34px; border-radius:50%; flex-shrink:0; background:#5C566A; }
   .meta .who .name{ font-size:13px; font-weight:600; color:var(--text-hi); }
   .meta .who .sub{ font-family:var(--font-mono); font-size:10px; color:var(--text-low); margin-top:1px; }
-  .post .body{ font-size:13.5px; line-height:1.55; color:#DBD7E2; margin-bottom:11px; }
+  .post .body{ font-size:13.5px; line-height:1.55; color:#3A3648; margin-bottom:11px; }
   .post .media{
     height:180px; border-radius:14px;
     background:linear-gradient(155deg, #123A52 0%, #1E6B72 45%, #D99A3A 100%);
@@ -233,7 +218,7 @@
   .post .actions svg{ width:15px; height:15px; }
 
   /* ===== tab bar ===== */
-  .tabbar{ display:flex; border-top:1px solid var(--line); background:#0D0C11; padding:10px 10px 16px; flex-shrink:0; }
+  .tabbar{ display:flex; border-top:1px solid var(--line); background:#FFFFFF; padding:10px 10px 16px; flex-shrink:0; }
   .tab{
     flex:1; display:flex; flex-direction:column; align-items:center; gap:5px;
     font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.04em; color:var(--text-low);
@@ -284,7 +269,7 @@
   .chat-preview{ padding:8px 20px 20px; }
   .chat-line{ display:flex; gap:9px; margin-bottom:13px; align-items:flex-start; }
   .chat-line .avatar{ width:24px; height:24px; }
-  .chat-line .txt{ font-size:12.5px; line-height:1.4; color:#DBD7E2; }
+  .chat-line .txt{ font-size:12.5px; line-height:1.4; color:#3A3648; }
   .chat-line .txt b{ font-weight:600; color:var(--text-hi); }
   .chat-line .txt span{ color:var(--text-mid); }
 
@@ -359,9 +344,9 @@
 
 <div class="rig">
   <div class="rig-head">
-    <span class="eyebrow">Grace Fellowship — v3 Prototype</span>
-    <h1>Built to feel like an app, not a brochure</h1>
-    <p>Tap the bottom tabs to move between Home, Live and Groups. Placeholder branding — swap "Grace Fellowship" and the mark once naming is confirmed.</p>
+    <span class="eyebrow">Grace Fellowship — v6 Prototype</span>
+    <h1>Light mode, same signature accent</h1>
+    <p>Tap the bottom tabs to move between Home, Live, Reels and Groups. Placeholder branding — swap "Grace Fellowship" and the mark once naming is confirmed.</p>
   </div>
 
   <div class="stage">
@@ -375,7 +360,7 @@
 
           <!-- HOME -->
           <div class="view active" id="view-home">
-            <div class="beam-glow">
+            <div>
               <div class="status"><span>9:41</span><span>Grace Fellowship</span></div>
               <div class="home-header">
                 <div class="row1">
@@ -384,11 +369,11 @@
                     <span>Home</span>
                   </div>
                   <div class="icon-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#F6F4F8" stroke-width="1.7"><path d="M6 8a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#18161E" stroke-width="1.7"><path d="M6 8a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>
                   </div>
                 </div>
                 <div class="live-card">
-                  <div class="live-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#0A090E" stroke-width="2"><path d="M5 3v18l15-9L5 3Z"/></svg></div>
+                  <div class="live-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 3v18l15-9L5 3Z"/></svg></div>
                   <div class="txt">
                     <span class="tag"><i></i>Live now</span>
                     <div class="title">Sunday Worship — Bishop Dulfa</div>
