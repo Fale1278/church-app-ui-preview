@@ -2,32 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Grace Fellowship — UI Prototype v3</title>
+<title>TEAM International — UI Prototype v7</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     /* mobile app — light canvas */
     --app-bg:#FFFFFF;
-    --app-surface:#F7F6FA;
-    --app-surface-2:#EFEDF3;
-    --text-hi:#18161E;
-    --text-mid:#6E6980;
-    --text-low:#A29DB0;
-    --line:rgba(24,22,30,0.09);
+    --app-surface:#F6F6F7;
+    --app-surface-2:#ECECEE;
+    --text-hi:#161616;
+    --text-mid:#6B6B70;
+    --text-low:#A0A0A6;
+    --line:rgba(20,20,20,0.09);
 
-    /* beam gradient — the signature */
-    --violet:#1F5D8C;
-    --magenta:#1E8A78;
-    --amber:#E0A030;
-    --beam: linear-gradient(120deg, var(--violet) 0%, var(--magenta) 52%, var(--amber) 100%);
+    /* monochrome signature */
+    --ink-1:#0E0E10;
+    --ink-2:#57565C;
+    --ink-3:#A6A4AC;
+    --beam: linear-gradient(120deg, #101012 0%, #57565C 55%, #B8B6BE 100%);
+
+    /* red — reserved ONLY for live / record / play */
+    --live-red:#E23B3B;
+    --live-red-soft:#FCE7E7;
 
     /* admin — light desktop panel */
-    --adm-bg:#F5F4F8;
+    --adm-bg:#F5F5F6;
     --adm-surface:#FFFFFF;
-    --adm-ink:#15131C;
-    --adm-ink-soft:#6C6678;
-    --adm-line:rgba(21,19,28,0.08);
+    --adm-ink:#141414;
+    --adm-ink-soft:#6B6A70;
+    --adm-line:rgba(20,20,20,0.08);
 
     --font-display:'Space Grotesk', sans-serif;
     --font-body:'Inter', sans-serif;
@@ -44,14 +48,14 @@
   .rig-head{ text-align:center; margin-bottom:38px; }
   .eyebrow{
     font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em;
-    text-transform:uppercase; color:var(--magenta); display:block; margin-bottom:10px;
+    text-transform:uppercase; color:var(--ink-2); display:block; margin-bottom:10px;
   }
   .rig-head h1{
     font-family:var(--font-display); font-weight:700; font-size:clamp(28px,4vw,40px);
     color:#15131C; letter-spacing:-0.01em;
   }
   .rig-head p{
-    margin-top:10px; color:#5F5A6B; font-size:14px; max-width:540px;
+    margin-top:10px; color:#5F5A6B; font-size:14px; max-width:560px;
     margin-left:auto; margin-right:auto; line-height:1.55;
   }
 
@@ -85,19 +89,19 @@
   .scroll{ flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
   .scroll::-webkit-scrollbar{ display:none; }
 
-  /* ===== home header (light, no full-bleed glow) ===== */
-  .home-header{ padding:16px 20px 16px; background:var(--app-bg); }
+  /* ===== home header ===== */
+  .home-header{ padding:16px 20px 4px; background:var(--app-bg); }
   .home-header .row1{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
   .brandmark{ display:flex; align-items:center; gap:9px; }
   .brandmark .mark{
-    width:24px; height:24px; border-radius:8px; background:var(--beam);
+    width:24px; height:24px; border-radius:8px; background:var(--ink-1);
     display:flex; align-items:center; justify-content:center; cursor:pointer;
   }
   .brandmark .mark svg{ width:13px; height:13px; }
   .brandmark span{ font-family:var(--font-display); font-weight:700; font-size:16px; color:var(--text-hi); letter-spacing:-0.01em; }
   .icon-btn{
     width:34px; height:34px; border-radius:50%; background:var(--app-surface);
-    display:flex; align-items:center; justify-content:center; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; border:1px solid var(--line); cursor:pointer;
   }
   .icon-btn svg{ width:16px; height:16px; }
 
@@ -105,30 +109,41 @@
     background:var(--beam);
     border:none;
     border-radius:18px; padding:6px; display:flex; align-items:center; gap:12px;
-    box-shadow:0 14px 28px -14px rgba(31,93,140,0.45);
+    box-shadow:0 14px 28px -14px rgba(0,0,0,0.4);
   }
   .live-thumb{
-    width:52px; height:52px; border-radius:14px; background:rgba(255,255,255,0.22);
-    border:1px solid rgba(255,255,255,0.3);
+    width:52px; height:52px; border-radius:50%; background:#fff;
+    border:1px solid var(--line);
     flex-shrink:0; display:flex; align-items:center; justify-content:center;
   }
-  .live-thumb svg{ width:20px; height:20px; }
+  .live-thumb svg{ width:18px; height:18px; }
   .live-card .txt{ flex:1; padding:4px 0; }
   .live-card .txt .tag{
     display:inline-flex; align-items:center; gap:5px;
     font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.08em; color:#fff;
     text-transform:uppercase; font-weight:500;
   }
-  .live-card .txt .tag i{ width:6px; height:6px; border-radius:50%; background:#fff; animation:pulse 1.6s infinite; }
+  .live-card .txt .tag i{ width:6px; height:6px; border-radius:50%; background:var(--live-red); animation:pulse 1.6s infinite; }
   @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
   .live-card .txt .title{ font-family:var(--font-display); font-size:14.5px; font-weight:600; color:#fff; margin-top:3px; }
   .live-card .cta{
     font-family:var(--font-mono); font-size:10px; letter-spacing:0.04em;
-    background:#fff; color:#14293A; padding:8px 14px; border-radius:20px;
+    background:#fff; color:var(--ink-1); padding:8px 14px; border-radius:20px;
     font-weight:600; text-transform:uppercase; margin-right:6px; flex-shrink:0; cursor:pointer;
   }
 
-  /* ===== stories row (gradient ring signature) ===== */
+  /* ===== home quick-link cards ===== */
+  .quick-links{ display:flex; gap:12px; padding:16px 20px 6px; }
+  .quick-card{
+    flex:1; background:var(--app-surface); border:1px solid var(--line); border-radius:16px;
+    padding:14px; display:flex; flex-direction:column; gap:10px; cursor:pointer;
+  }
+  .quick-card .ico{ width:32px; height:32px; border-radius:9px; background:var(--beam); display:flex; align-items:center; justify-content:center; }
+  .quick-card .ico svg{ width:15px; height:15px; }
+  .quick-card .lab{ font-family:var(--font-display); font-weight:700; font-size:13px; color:var(--text-hi); }
+  .quick-card .sub{ font-family:var(--font-mono); font-size:9px; color:var(--text-low); text-transform:uppercase; }
+
+  /* ===== stories row (used inside Stories screen) ===== */
   .stories{ display:flex; gap:14px; padding:16px 20px 6px; overflow-x:auto; }
   .story{ display:flex; flex-direction:column; align-items:center; gap:6px; flex-shrink:0; width:56px; cursor:pointer; }
   .ring{
@@ -158,34 +173,37 @@
   .post .body{ font-size:13.5px; line-height:1.55; color:#3A3648; margin-bottom:11px; }
   .post .media{
     height:180px; border-radius:14px;
-    background:linear-gradient(155deg, #123A52 0%, #1E6B72 45%, #D99A3A 100%);
+    background:linear-gradient(155deg, #1A1A1E 0%, #6E6C74 50%, #C9C7CE 100%);
     margin-bottom:11px; position:relative; overflow:hidden;
     border:1px solid var(--line);
   }
   .post .media::after{
     content:attr(data-label); position:absolute; bottom:10px; left:12px;
     font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase;
-    color:rgba(255,255,255,0.85); background:rgba(0,0,0,0.28); padding:4px 9px; border-radius:20px;
+    color:rgba(255,255,255,0.9); background:rgba(0,0,0,0.32); padding:4px 9px; border-radius:20px;
     backdrop-filter:blur(4px);
   }
-  .post .media.alt{ background:linear-gradient(155deg, #14293A 0%, #1E5A5A 50%, #E0A030 100%); }
+  .post .media.alt{ background:linear-gradient(155deg, #101012 0%, #55535C 55%, #B8B6BE 100%); }
+  .play-badge{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:44px; height:44px; border-radius:50%; background:#fff;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 18px -6px rgba(0,0,0,0.5);
+  }
+  .play-badge svg{ width:16px; height:16px; }
 
-  /* ===== reels ===== */
-  .reel-screen{ position:relative; flex:1; background:#000; overflow:hidden; }
+  /* ===== reels (light gray) ===== */
+  .reel-screen{ position:relative; flex:1; background:#EFEFF1; overflow:hidden; }
   .reel-bg{
     position:absolute; top:0; left:0; right:0; bottom:0;
-    background:linear-gradient(200deg, #123049 0%, #1E6B6B 38%, #D99A3A 100%);
-  }
-  .reel-bg::after{
-    content:''; position:absolute; top:0; left:0; right:0; bottom:0;
-    background:linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.05) 45%, rgba(0,0,0,0.35) 100%);
+    background:linear-gradient(200deg, #F1F1F3 0%, #E4E4E7 50%, #D6D5DA 100%);
   }
   .reel-top{
     position:relative; z-index:3; display:flex; justify-content:center; gap:6px;
     padding:18px 20px 0;
   }
-  .reel-top .seg{ flex:1; max-width:60px; height:2.5px; border-radius:2px; background:rgba(255,255,255,0.3); }
-  .reel-top .seg.on{ background:#fff; }
+  .reel-top .seg{ flex:1; max-width:60px; height:2.5px; border-radius:2px; background:rgba(0,0,0,0.15); }
+  .reel-top .seg.on{ background:var(--ink-1); }
   .reel-content{ position:relative; z-index:2; height:100%; display:flex; flex-direction:column; justify-content:flex-end; }
   .reel-rail{
     position:absolute; right:12px; bottom:130px; z-index:4;
@@ -193,38 +211,38 @@
   }
   .reel-rail .item{ display:flex; flex-direction:column; align-items:center; gap:4px; }
   .reel-rail .ico{
-    width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.14);
-    backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center;
-    border:1px solid rgba(255,255,255,0.2);
+    width:42px; height:42px; border-radius:50%; background:rgba(0,0,0,0.06);
+    display:flex; align-items:center; justify-content:center;
+    border:1px solid rgba(0,0,0,0.12);
   }
   .reel-rail .ico svg{ width:20px; height:20px; }
-  .reel-rail span{ font-family:var(--font-mono); font-size:10px; color:#fff; }
+  .reel-rail span{ font-family:var(--font-mono); font-size:10px; color:var(--text-hi); }
   .reel-caption{
     position:relative; z-index:3; padding:0 78px 26px 20px;
-    color:#fff;
+    color:var(--text-hi);
   }
   .reel-caption .who{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
   .reel-caption .who .ring{ width:34px; height:34px; padding:2px; }
   .reel-caption .who .name{ font-family:var(--font-display); font-weight:700; font-size:13.5px; }
-  .reel-caption .txt{ font-size:12.5px; line-height:1.5; color:rgba(255,255,255,0.92); }
+  .reel-caption .txt{ font-size:12.5px; line-height:1.5; color:#2A2A2E; }
   .reel-caption .tag{
     display:inline-flex; align-items:center; gap:5px; margin-top:10px;
-    font-family:var(--font-mono); font-size:10px; background:rgba(255,255,255,0.15);
-    backdrop-filter:blur(6px); padding:5px 10px; border-radius:20px; color:#fff;
+    font-family:var(--font-mono); font-size:10px; background:rgba(0,0,0,0.06);
+    padding:5px 10px; border-radius:20px; color:var(--text-hi);
   }
-  .reel-caption .tag i{ width:6px; height:6px; border-radius:50%; background:var(--amber); }
+  .reel-caption .tag i{ width:6px; height:6px; border-radius:50%; background:var(--ink-3); }
   .post .actions{ display:flex; gap:20px; }
-  .post .actions .a{ display:flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:11px; color:var(--text-mid); }
+  .post .actions .a{ display:flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:11px; color:var(--text-mid); cursor:pointer; }
   .post .actions svg{ width:15px; height:15px; }
 
-  /* ===== tab bar ===== */
+  /* ===== tab bar — icons unified to profile icon's line-art style ===== */
   .tabbar{ display:flex; border-top:1px solid var(--line); background:#FFFFFF; padding:10px 10px 16px; flex-shrink:0; }
   .tab{
     flex:1; display:flex; flex-direction:column; align-items:center; gap:5px;
     font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.04em; color:var(--text-low);
     text-transform:uppercase; cursor:pointer; background:none; border:none; position:relative;
   }
-  .tab svg{ width:19px; height:19px; stroke:var(--text-low); fill:none; stroke-width:1.6; }
+  .tab svg{ width:19px; height:19px; stroke:var(--text-low); fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
   .tab.on{ color:var(--text-hi); }
   .tab.on svg{ stroke:var(--text-hi); }
   .tab.on::before{
@@ -235,10 +253,9 @@
   .live-stage{
     height:240px; position:relative; display:flex; align-items:flex-end; flex-shrink:0; overflow:hidden;
     background:
-      radial-gradient(circle at 25% 20%, rgba(31,93,140,0.6), transparent 50%),
-      radial-gradient(circle at 85% 60%, rgba(30,138,120,0.45), transparent 50%),
-      radial-gradient(circle at 50% 100%, rgba(224,160,48,0.3), transparent 55%),
-      #0D0B12;
+      radial-gradient(circle at 25% 20%, rgba(255,255,255,0.12), transparent 50%),
+      radial-gradient(circle at 85% 60%, rgba(255,255,255,0.08), transparent 50%),
+      #0D0D0F;
   }
   .waveform{ display:flex; align-items:flex-end; gap:3px; padding:0 20px 20px; height:64px; width:100%; position:relative; z-index:2; }
   .waveform i{ display:block; width:4px; border-radius:2px; background:var(--beam); opacity:0.9; }
@@ -248,24 +265,27 @@
     padding:6px 11px; border-radius:20px; display:flex; align-items:center; gap:6px; text-transform:uppercase;
     border:1px solid rgba(255,255,255,0.15); z-index:3;
   }
-  .live-badge .d{ width:6px; height:6px; border-radius:50%; background:var(--magenta); }
+  .live-badge .d{ width:6px; height:6px; border-radius:50%; background:var(--live-red); }
   .viewers{
     position:absolute; top:18px; right:20px; color:#fff; font-family:var(--font-mono); font-size:10.5px;
     background:rgba(0,0,0,0.35); backdrop-filter:blur(6px); padding:6px 11px; border-radius:20px; z-index:3;
     border:1px solid rgba(255,255,255,0.15);
   }
   .live-info{ padding:18px 20px; border-bottom:1px solid var(--line); }
-  .live-info h3{ font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--text-hi); margin-bottom:5px; }
+  .live-info h3{ font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--text-hi); margin-bottom:6px; }
+  .host-name{ font-family:var(--font-mono); font-size:11.5px; color:var(--text-hi); font-weight:600; margin-bottom:2px; }
+  .org-tag{ color:var(--text-mid); font-weight:400; }
   .live-info .host{ font-family:var(--font-mono); font-size:11px; color:var(--text-mid); margin-bottom:16px; }
+
+  /* shared toggle button style — Join Audio / Remind Me / Connect rows */
   .live-actions{ display:flex; gap:10px; }
-  .btn-primary{
-    flex:1; background:var(--beam); color:#0A090E; text-align:center; padding:12px;
+  .btn-toggle{
+    flex:1; border:1.5px solid var(--ink-1); color:var(--ink-1); text-align:center; padding:12px;
     border-radius:14px; font-size:12.5px; font-weight:700; font-family:var(--font-display);
+    background:transparent; cursor:pointer; transition:all .15s ease;
   }
-  .btn-ghost{
-    flex:1; border:1px solid var(--line); color:var(--text-hi); text-align:center; padding:12px;
-    border-radius:14px; font-size:12.5px; font-weight:600;
-  }
+  .btn-toggle.active{ background:var(--ink-1); color:#fff; }
+
   .chat-preview{ padding:8px 20px 20px; }
   .chat-line{ display:flex; gap:9px; margin-bottom:13px; align-items:flex-start; }
   .chat-line .avatar{ width:24px; height:24px; }
@@ -273,11 +293,19 @@
   .chat-line .txt b{ font-weight:600; color:var(--text-hi); }
   .chat-line .txt span{ color:var(--text-mid); }
 
-  /* ===== groups ===== */
-  .group-row{ display:flex; align-items:center; gap:12px; padding:14px 20px; border-bottom:1px solid var(--line); }
+  /* ===== groups + search ===== */
+  .search-bar{
+    display:flex; align-items:center; gap:8px; background:var(--app-surface);
+    border:1px solid var(--line); border-radius:14px; padding:9px 14px; margin:0 20px 12px;
+  }
+  .search-bar svg{ width:15px; height:15px; stroke:var(--text-low); flex-shrink:0; }
+  .search-bar input{ border:none; background:transparent; outline:none; font-family:var(--font-body); font-size:12.5px; color:var(--text-hi); flex:1; }
+  .search-bar input::placeholder{ color:var(--text-low); }
+
+  .group-row{ display:flex; align-items:center; gap:12px; padding:14px 20px; border-bottom:1px solid var(--line); cursor:pointer; }
   .group-icon{
     width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-display); font-weight:700; font-size:15px; color:#0A090E; flex-shrink:0; background:var(--beam);
+    font-family:var(--font-display); font-weight:700; font-size:15px; color:#fff; flex-shrink:0; background:var(--beam);
   }
   .group-row .info{ flex:1; min-width:0; }
   .group-row .info .name{ font-size:13.5px; font-weight:600; color:var(--text-hi); margin-bottom:2px; }
@@ -285,9 +313,18 @@
   .group-row .meta{ text-align:right; flex-shrink:0; }
   .group-row .meta .time{ font-family:var(--font-mono); font-size:10px; color:var(--text-low); margin-bottom:6px; }
   .badge-count{
-    background:var(--magenta); color:#fff; font-family:var(--font-mono);
+    background:var(--ink-1); color:#fff; font-family:var(--font-mono);
     font-size:9.5px; padding:2px 6px; border-radius:20px; display:inline-block; font-weight:600;
   }
+
+  /* ===== library ===== */
+  .lib-item{ display:flex; align-items:center; gap:12px; padding:12px 20px; border-bottom:1px solid var(--line); cursor:pointer; }
+  .lib-thumb{ width:40px; height:40px; border-radius:10px; background:var(--app-surface-2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .lib-thumb svg{ width:16px; height:16px; }
+  .lib-thumb.play{ background:#fff; border:1px solid var(--line); }
+  .lib-item .info{ flex:1; min-width:0; }
+  .lib-item .info .t{ font-size:13px; font-weight:600; color:var(--text-hi); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .lib-item .info .s{ font-family:var(--font-mono); font-size:10px; color:var(--text-low); margin-top:2px; }
 
   /* ===== admin (light) ===== */
   .admin{
@@ -297,22 +334,22 @@
   .admin-top{
     padding:24px 26px; position:relative; overflow:hidden;
     background:
-      radial-gradient(circle at 10% 0%, rgba(31,93,140,0.7), transparent 45%),
-      radial-gradient(circle at 90% 40%, rgba(30,138,120,0.5), transparent 45%),
-      #0A090E;
+      radial-gradient(circle at 10% 0%, rgba(255,255,255,0.12), transparent 45%),
+      radial-gradient(circle at 90% 40%, rgba(255,255,255,0.08), transparent 45%),
+      #0A0A0C;
   }
   .admin-top .who{ display:flex; align-items:center; gap:12px; position:relative; z-index:2; }
-  .admin-top .who .mark{ width:30px; height:30px; border-radius:9px; background:var(--beam); display:flex; align-items:center; justify-content:center; }
+  .admin-top .who .mark{ width:30px; height:30px; border-radius:9px; background:#fff; display:flex; align-items:center; justify-content:center; }
   .admin-top .who .mark svg{ width:16px; height:16px; }
   .admin-top h2{ font-family:var(--font-display); font-size:17px; font-weight:700; color:#fff; }
   .admin-top .sub{ font-family:var(--font-mono); font-size:10.5px; color:rgba(255,255,255,0.6); margin-top:2px; }
   .admin-body{ padding:26px; background:var(--adm-bg); }
   .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:26px; }
   .stat{ background:var(--adm-surface); border:1px solid var(--adm-line); border-radius:16px; padding:16px 14px; border-top:3px solid; }
-  .stat.s1{ border-top-color:var(--violet); }
-  .stat.s2{ border-top-color:var(--magenta); }
-  .stat.s3{ border-top-color:var(--amber); }
-  .stat.s4{ border-top-color:var(--violet); }
+  .stat.s1{ border-top-color:var(--ink-1); }
+  .stat.s2{ border-top-color:var(--ink-2); }
+  .stat.s3{ border-top-color:var(--ink-3); }
+  .stat.s4{ border-top-color:var(--ink-1); }
   .stat .num{ font-family:var(--font-display); font-size:23px; font-weight:700; color:var(--adm-ink); }
   .stat .lab{ font-family:var(--font-mono); font-size:9.5px; color:var(--adm-ink-soft); text-transform:uppercase; letter-spacing:0.04em; margin-top:5px; }
   .admin-section{ background:var(--adm-surface); border:1px solid var(--adm-line); border-radius:16px; padding:18px 20px; margin-bottom:16px; }
@@ -329,17 +366,38 @@
   .pill{ font-family:var(--font-mono); font-size:9.5px; padding:5px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:0.04em; font-weight:600; }
   .pill.flag{ background:#FBE7DD; color:#B5502A; }
   .pill.ok{ background:#E6F4EA; color:#2E7D46; }
-  .pill.live{ background:#E1EEF6; color:#1F5D8C; }
+  .pill.live{ background:var(--live-red-soft); color:var(--live-red); }
 
   .chart-row{ display:flex; align-items:flex-end; gap:8px; height:80px; padding-top:8px; }
-  .chart-row .bar{ flex:1; border-radius:6px 6px 3px 3px; background:linear-gradient(180deg, var(--violet), var(--magenta)); position:relative; }
-  .chart-row .bar.today{ background:linear-gradient(180deg, var(--amber), var(--magenta)); }
+  .chart-row .bar{ flex:1; border-radius:6px 6px 3px 3px; background:linear-gradient(180deg, var(--ink-2), var(--ink-3)); position:relative; }
+  .chart-row .bar.today{ background:linear-gradient(180deg, var(--ink-1), var(--ink-2)); }
   .chart-labels{ display:flex; gap:8px; margin-top:8px; }
   .chart-labels span{ flex:1; text-align:center; font-family:var(--font-mono); font-size:9px; color:var(--adm-ink-soft); text-transform:uppercase; }
 
+  /* go-live studio */
+  .connect-row{
+    display:flex; align-items:center; justify-content:space-between; padding:14px 16px;
+    border:1.5px solid var(--ink-1); border-radius:14px; margin-bottom:10px; cursor:pointer; transition:all .15s ease;
+  }
+  .connect-row.connected{ background:var(--ink-1); color:#fff; }
+  .connect-row .lab{ font-family:var(--font-display); font-weight:700; font-size:13px; }
+  .connect-row .stat{ font-family:var(--font-mono); font-size:10px; opacity:.65; margin-top:2px; }
+  .golive-input{
+    width:100%; background:var(--app-surface); border:1px solid var(--line); border-radius:12px;
+    padding:12px 14px; font-family:var(--font-body); font-size:13px; color:var(--text-hi); margin:6px 0 6px;
+  }
+  .admin-body .golive-input{ background:var(--adm-bg); }
+  .btn-start-stream{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--live-red); color:#fff; text-align:center; padding:14px;
+    border-radius:14px; font-family:var(--font-display); font-weight:700; font-size:13.5px;
+    margin-top:14px; cursor:pointer;
+  }
+  .btn-start-stream i{ width:8px; height:8px; border-radius:50%; background:#fff; display:inline-block; }
+
   @media (max-width:760px){ .stat-grid{ grid-template-columns:repeat(2,1fr); } }
 
-  /* ===== overlay screens (push navigation) ===== */
+  /* ===== overlay screens (stack navigation) ===== */
   .overlay{
     position:absolute; top:0; left:0; right:0; bottom:0; z-index:50;
     background:var(--app-bg); display:flex; flex-direction:column;
@@ -373,7 +431,7 @@
   .chat-body{ flex:1; overflow-y:auto; padding:16px 16px 8px; display:flex; flex-direction:column; gap:10px; }
   .bubble{ max-width:75%; padding:10px 13px; border-radius:16px; font-size:12.5px; line-height:1.45; }
   .bubble.in{ align-self:flex-start; background:var(--app-surface); color:var(--text-hi); border-bottom-left-radius:4px; }
-  .bubble.out{ align-self:flex-end; background:var(--beam); color:#fff; border-bottom-right-radius:4px; }
+  .bubble.out{ align-self:flex-end; background:var(--ink-1); color:#fff; border-bottom-right-radius:4px; }
   .bubble .who{ font-family:var(--font-mono); font-size:9px; opacity:0.7; margin-bottom:3px; text-transform:uppercase; letter-spacing:0.04em; }
   .chat-input-row{
     display:flex; gap:8px; padding:10px 14px 16px; border-top:1px solid var(--line); flex-shrink:0; align-items:center;
@@ -383,7 +441,7 @@
     padding:9px 14px; font-family:var(--font-body); font-size:12.5px; color:var(--text-low);
   }
   .chat-send{
-    width:36px; height:36px; border-radius:50%; background:var(--beam); flex-shrink:0;
+    width:36px; height:36px; border-radius:50%; background:var(--ink-1); flex-shrink:0;
     display:flex; align-items:center; justify-content:center; cursor:pointer; border:none;
   }
   .chat-send svg{ width:16px; height:16px; }
@@ -396,7 +454,8 @@
     font-size:24px; font-weight:700; color:#fff;
   }
   .profile-top .name{ font-family:var(--font-display); font-size:17px; font-weight:700; color:var(--text-hi); }
-  .profile-top .sub{ font-family:var(--font-mono); font-size:10px; color:var(--text-low); margin-top:3px; }
+  .profile-top .org-tag{ font-family:var(--font-mono); font-size:10px; color:var(--text-mid); margin-top:3px; }
+  .profile-top .sub{ font-family:var(--font-mono); font-size:10px; color:var(--text-low); margin-top:4px; }
   .profile-stats{ display:flex; justify-content:center; gap:28px; margin-top:16px; }
   .profile-stats .st{ text-align:center; }
   .profile-stats .st .n{ font-family:var(--font-display); font-weight:700; font-size:15px; color:var(--text-hi); }
@@ -412,7 +471,7 @@
   .toast{
     position:absolute; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px);
     background:#18161E; color:#fff; font-family:var(--font-mono); font-size:11px;
-    padding:10px 18px; border-radius:20px; white-space:nowrap; z-index:80;
+    padding:10px 18px; border-radius:20px; white-space:nowrap; z-index:90;
     opacity:0; pointer-events:none; transition:all 0.25s ease;
     box-shadow:0 10px 24px -8px rgba(0,0,0,0.35);
   }
@@ -422,12 +481,9 @@
   .overlay.sheet{ transform:translateY(100%); justify-content:flex-end; background:rgba(24,22,30,0.4); }
   .overlay.sheet.open{ transform:translateY(0); }
 
-  /* like button active state */
-  .a.liked svg{ fill:#C2503E; stroke:#C2503E; }
+  /* like button active state — monochrome, not red (red = live/record/play only) */
+  .a.liked svg{ fill:var(--ink-1); stroke:var(--ink-1); }
   .a{ cursor:pointer; }
-  .live-actions .btn-primary{ cursor:pointer; }
-  .live-actions .btn-ghost{ cursor:pointer; }
-  .icon-btn{ cursor:pointer; }
   .group-row{ cursor:pointer; }
   .reel-tapzone{ position:absolute; top:0; bottom:0; width:50%; z-index:5; }
 </style>
@@ -436,9 +492,9 @@
 
 <div class="rig">
   <div class="rig-head">
-    <span class="eyebrow">Grace Fellowship — v6 Prototype</span>
-    <h1>Light mode, same signature accent</h1>
-    <p>Tap the bottom tabs to move between Home, Live, Reels and Groups. Placeholder branding — swap "Grace Fellowship" and the mark once naming is confirmed.</p>
+    <span class="eyebrow">TEAM International — v7 Prototype</span>
+    <h1>Monochrome theme, decluttered home, proper nav stack</h1>
+    <p>Tap the bottom tabs to move between Home, Live, Reels, Groups and Library. Red is reserved for live/record/play indicators only — everything else is grayscale.</p>
   </div>
 
   <div class="stage">
@@ -453,11 +509,11 @@
           <!-- HOME -->
           <div class="view active" id="view-home">
             <div>
-              <div class="status"><span>9:41</span><span>Grace Fellowship</span></div>
+              <div class="status"><span>9:41</span><span>TEAM International</span></div>
               <div class="home-header">
                 <div class="row1">
                   <div class="brandmark">
-                    <div class="mark" onclick="openOverlay('screen-add')"><svg viewBox="0 0 24 24" fill="none" stroke="#0A090E" stroke-width="2.2"><path d="M12 2v20M2 12h20"/></svg></div>
+                    <div class="mark" onclick="openOverlay('screen-add')"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 2v20M2 12h20"/></svg></div>
                     <span>Home</span>
                   </div>
                   <div style="display:flex; gap:8px;">
@@ -470,57 +526,24 @@
                   </div>
                 </div>
                 <div class="live-card">
-                  <div class="live-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 3v18l15-9L5 3Z"/></svg></div>
+                  <div class="live-thumb"><svg viewBox="0 0 24 24"><path d="M9 7l9 5-9 5V7Z" fill="var(--live-red)"/></svg></div>
                   <div class="txt">
                     <span class="tag"><i></i>Live now</span>
-                    <div class="title">Sunday Worship — Bishop Dulfa</div>
+                    <div class="title">Sunday Worship — Bishop Tony</div>
                   </div>
                   <span class="cta" onclick="goToLive()">Join</span>
                 </div>
-              </div>
-              <div class="stories">
-                <div class="story" onclick="openStory('Youth Ministry','#8B84A0')"><div class="ring"><div class="inner"><div class="avatar" style="background:#8B84A0;"></div></div></div><span>Youth</span></div>
-                <div class="story" onclick="openStory('Choir &amp; Worship','#7C7488')"><div class="ring"><div class="inner"><div class="avatar" style="background:#7C7488;"></div></div></div><span>Choir</span></div>
-                <div class="story" onclick="openStory('Maria S.','#6A6478')"><div class="ring seen"><div class="inner"><div class="avatar" style="background:#6A6478;"></div></div></div><span>Maria S.</span></div>
-                <div class="story" onclick="openStory('Enzo R.','#5C566A')"><div class="ring seen"><div class="inner"><div class="avatar" style="background:#5C566A;"></div></div></div><span>Enzo R.</span></div>
-                <div class="story" onclick="openStory('Outreach &amp; Missions','#7C7488')"><div class="ring"><div class="inner"><div class="avatar" style="background:#7C7488;"></div></div></div><span>Missions</span></div>
-              </div>
-            </div>
-            <div class="scroll">
-              <div class="section-label">This week</div>
-              <div class="post">
-                <div class="meta">
-                  <div class="avatar"></div>
-                  <div class="who"><div class="name">Youth Ministry</div><div class="sub">2 HOURS AGO</div></div>
-                </div>
-                <div class="body">Praise night rehearsal moved to Thursday 6PM. See you all at the fellowship hall!</div>
-                <div class="media" data-label="Photo"></div>
-                <div class="actions">
-                  <span class="a" onclick="toggleLike(this,48)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg> <b>48</b></span>
-                  <span class="a" onclick="showToast(null,'Comments — demo only')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg> 12</span>
-                </div>
-              </div>
-              <div class="post">
-                <div class="meta">
-                  <div class="avatar" style="background:#7C8B99;"></div>
-                  <div class="who"><div class="name">Sis. Maria Santos</div><div class="sub">YESTERDAY</div></div>
-                </div>
-                <div class="body">Thank you all for the prayers for my mother's recovery. God is faithful.</div>
-                <div class="actions">
-                  <span class="a" onclick="toggleLike(this,96)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg> <b>96</b></span>
-                  <span class="a" onclick="showToast(null,'Comments — demo only')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg> 31</span>
-                </div>
-              </div>
-              <div class="post">
-                <div class="meta">
-                  <div class="avatar" style="background:#D99A3A;"></div>
-                  <div class="who"><div class="name">Grace Fellowship</div><div class="sub">2 DAYS AGO</div></div>
-                </div>
-                <div class="body">Replay of last Sunday's message, "Faith Over Fear," is now up. Tap Live to catch up.</div>
-                <div class="media alt" data-label="Sermon replay · 42 min"></div>
-                <div class="actions">
-                  <span class="a" onclick="toggleLike(this,210)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg> <b>210</b></span>
-                  <span class="a" onclick="showToast(null,'Comments — demo only')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg> 44</span>
+                <div class="quick-links">
+                  <div class="quick-card" onclick="openOverlay('screen-stories')">
+                    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.4"/></svg></div>
+                    <div class="lab">Stories</div>
+                    <div class="sub">5 new</div>
+                  </div>
+                  <div class="quick-card" onclick="openOverlay('screen-feed')">
+                    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></div>
+                    <div class="lab">Feed</div>
+                    <div class="sub">3 posts</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -536,17 +559,18 @@
               </div>
               <div class="live-info">
                 <h3>Sunday Worship Service</h3>
-                <div class="host">Bishop Bernard Dulfa · Multi-speaker session</div>
+                <div class="host-name">Bishop Tony <span class="org-tag">(Team International)</span></div>
+                <div class="host">Multi-speaker session</div>
                 <div class="live-actions">
-                  <span class="btn-primary" id="joinBtn" onclick="toggleJoin(this)">Join audio</span>
-                  <span class="btn-ghost" id="remindBtn" onclick="toggleRemind(this)">Remind me</span>
+                  <span class="btn-toggle" id="joinBtn" onclick="toggleJoin(this)">Join audio</span>
+                  <span class="btn-toggle" id="remindBtn" onclick="toggleRemind(this)">Remind me</span>
                 </div>
               </div>
               <div class="section-label">Live chat</div>
               <div class="chat-preview">
                 <div class="chat-line"><div class="avatar" style="width:24px;height:24px;"></div><div class="txt"><b>Joyce A.</b> Amen! God bless this ministry</div></div>
                 <div class="chat-line"><div class="avatar" style="width:24px;height:24px;background:#7C8B99;"></div><div class="txt"><b>Paolo R.</b> <span>watching from Cebu today</span></div></div>
-                <div class="chat-line"><div class="avatar" style="width:24px;height:24px;background:#D99A3A;"></div><div class="txt"><b>Youth Ministry</b> <span>praise dance video after service!</span></div></div>
+                <div class="chat-line"><div class="avatar" style="width:24px;height:24px;background:#8A8890;"></div><div class="txt"><b>Youth Ministry</b> <span>praise dance video after service!</span></div></div>
               </div>
             </div>
           </div>
@@ -561,14 +585,14 @@
                 <span class="seg on"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span>
               </div>
               <div class="reel-rail">
-                <div class="item"><div class="ico" onclick="reelLike(event)" id="reelLikeIco"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg></div><span id="reelLikeCount">412</span></div>
-                <div class="item"><div class="ico" onclick="showToast(event,'Comments — demo only')"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg></div><span id="reelCommentCount">58</span></div>
-                <div class="item"><div class="ico" onclick="showToast(event,'Share — demo only')"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14"/></svg></div><span>Share</span></div>
+                <div class="item"><div class="ico" onclick="reelLike(event)" id="reelLikeIco"><svg viewBox="0 0 24 24" fill="none" stroke="#161616" stroke-width="1.8"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg></div><span id="reelLikeCount">412</span></div>
+                <div class="item"><div class="ico" onclick="showToast(event,'Comments — demo only')"><svg viewBox="0 0 24 24" fill="none" stroke="#161616" stroke-width="1.8"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg></div><span id="reelCommentCount">58</span></div>
+                <div class="item"><div class="ico" onclick="showToast(event,'Share — demo only')"><svg viewBox="0 0 24 24" fill="none" stroke="#161616" stroke-width="1.8"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14"/></svg></div><span>Share</span></div>
               </div>
               <div class="reel-content">
                 <div class="reel-caption">
                   <div class="who">
-                    <div class="ring"><div class="inner" style="padding:2px;"><div class="avatar" id="reelAvatar" style="background:#D99A3A;"></div></div></div>
+                    <div class="ring"><div class="inner" style="padding:2px;"><div class="avatar" id="reelAvatar" style="background:#8A8890;"></div></div></div>
                     <span class="name" id="reelName">Youth Ministry</span>
                   </div>
                   <div class="txt" id="reelCaption">Worship night highlights — thank you to everyone who came out! 🎤</div>
@@ -581,34 +605,164 @@
           <!-- GROUPS -->
           <div class="view" id="view-groups">
             <div class="status" style="padding-top:20px;"><span>9:41</span><span></span></div>
-            <div style="padding:8px 20px 16px;">
+            <div style="padding:8px 20px 12px;">
               <div style="font-family:var(--font-display); font-weight:700; font-size:21px; color:var(--text-hi);">Groups</div>
             </div>
+            <div class="search-bar">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="text" id="searchInput" placeholder="Search groups & members" oninput="filterSearch()">
+            </div>
             <div class="scroll">
-              <div class="group-row" onclick="openChat('Youth Ministry','YM')">
-                <div class="group-icon">YM</div>
-                <div class="info"><div class="name">Youth Ministry</div><div class="last">Sis. Grace: See everyone Thursday!</div></div>
-                <div class="meta"><div class="time">2m</div><span class="badge-count">3</span></div>
+              <div id="groupsList">
+                <div class="group-row" data-type="group" data-name="youth ministry" onclick="openChat('Youth Ministry','YM')">
+                  <div class="group-icon">YM</div>
+                  <div class="info"><div class="name">Youth Ministry</div><div class="last">Sis. Grace: See everyone Thursday!</div></div>
+                  <div class="meta"><div class="time">2m</div><span class="badge-count">3</span></div>
+                </div>
+                <div class="group-row" data-type="group" data-name="choir & worship team" onclick="openChat('Choir &amp; Worship Team','CH')">
+                  <div class="group-icon">CH</div>
+                  <div class="info"><div class="name">Choir &amp; Worship Team</div><div class="last">Practice recording uploaded</div></div>
+                  <div class="meta"><div class="time">1h</div></div>
+                </div>
+                <div class="group-row" data-type="group" data-name="bible study — tuesdays" onclick="openChat('Bible Study — Tuesdays','BS')">
+                  <div class="group-icon">BS</div>
+                  <div class="info"><div class="name">Bible Study — Tuesdays</div><div class="last">Bishop Sio: Read Romans 8 before we meet</div></div>
+                  <div class="meta"><div class="time">3h</div><span class="badge-count">12</span></div>
+                </div>
+                <div class="group-row" data-type="group" data-name="outreach & missions" onclick="openChat('Outreach &amp; Missions','OU')">
+                  <div class="group-icon">OU</div>
+                  <div class="info"><div class="name">Outreach &amp; Missions</div><div class="last">Planning meeting notes shared</div></div>
+                  <div class="meta"><div class="time">Yesterday</div></div>
+                </div>
+                <div class="group-row" data-type="group" data-name="prayer warriors" onclick="openChat('Prayer Warriors','PR')">
+                  <div class="group-icon">PR</div>
+                  <div class="info"><div class="name">Prayer Warriors</div><div class="last">Pastor Ana: Let's cover the sick list</div></div>
+                  <div class="meta"><div class="time">2d</div></div>
+                </div>
+                <!-- members — shown only while searching -->
+                <div class="group-row" data-type="member" data-name="bishop tony" style="display:none;" onclick="openChat('Bishop Tony','BT')">
+                  <div class="group-icon">BT</div>
+                  <div class="info"><div class="name">Bishop Tony</div><div class="last">Tap to message</div></div>
+                  <div class="meta"></div>
+                </div>
+                <div class="group-row" data-type="member" data-name="stephanie lindo" style="display:none;" onclick="openChat('Stephanie Lindo','SL')">
+                  <div class="group-icon">SL</div>
+                  <div class="info"><div class="name">Stephanie Lindo</div><div class="last">Tap to message</div></div>
+                  <div class="meta"></div>
+                </div>
+                <div class="group-row" data-type="member" data-name="paolo r." style="display:none;" onclick="openChat('Paolo R.','PA')">
+                  <div class="group-icon">PA</div>
+                  <div class="info"><div class="name">Paolo R.</div><div class="last">Tap to message</div></div>
+                  <div class="meta"></div>
+                </div>
+                <div class="group-row" data-type="member" data-name="sis. grace" style="display:none;" onclick="openChat('Sis. Grace','SG')">
+                  <div class="group-icon">SG</div>
+                  <div class="info"><div class="name">Sis. Grace</div><div class="last">Tap to message</div></div>
+                  <div class="meta"></div>
+                </div>
               </div>
-              <div class="group-row" onclick="openChat('Choir &amp; Worship Team','CH')">
-                <div class="group-icon">CH</div>
-                <div class="info"><div class="name">Choir &amp; Worship Team</div><div class="last">Practice recording uploaded</div></div>
-                <div class="meta"><div class="time">1h</div></div>
+            </div>
+          </div>
+
+          <!-- LIBRARY -->
+          <div class="view" id="view-library">
+            <div class="status" style="padding-top:20px;"><span>9:41</span><span></span></div>
+            <div style="padding:8px 20px 12px;">
+              <div style="font-family:var(--font-display); font-weight:700; font-size:21px; color:var(--text-hi);">Library</div>
+            </div>
+            <div class="scroll">
+              <div class="section-label" style="padding-top:0;">Audio</div>
+              <div class="lib-item" onclick="showToast(null,'Demo only — audio player')">
+                <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg></div>
+                <div class="info"><div class="t">Sunday Worship — Aug 24</div><div class="s">Audio · 1:12:04</div></div>
               </div>
-              <div class="group-row" onclick="openChat('Bible Study — Tuesdays','BS')">
-                <div class="group-icon">BS</div>
-                <div class="info"><div class="name">Bible Study — Tuesdays</div><div class="last">Bro. Enzo: Read Romans 8 before we meet</div></div>
-                <div class="meta"><div class="time">3h</div><span class="badge-count">12</span></div>
+              <div class="lib-item" onclick="showToast(null,'Demo only — audio player')">
+                <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg></div>
+                <div class="info"><div class="t">Midweek Prayer — Aug 20</div><div class="s">Audio · 38:12</div></div>
               </div>
-              <div class="group-row" onclick="openChat('Outreach &amp; Missions','OU')">
-                <div class="group-icon">OU</div>
-                <div class="info"><div class="name">Outreach &amp; Missions</div><div class="last">Planning meeting notes shared</div></div>
-                <div class="meta"><div class="time">Yesterday</div></div>
+
+              <div class="section-label">Video</div>
+              <div class="lib-item" onclick="showToast(null,'Demo only — video player')">
+                <div class="lib-thumb play"><svg viewBox="0 0 24 24"><path d="M9 7l9 5-9 5V7Z" fill="var(--live-red)"/></svg></div>
+                <div class="info"><div class="t">Faith Over Fear — Replay</div><div class="s">Video · 42:10</div></div>
               </div>
-              <div class="group-row" onclick="openChat('Prayer Warriors','PR')">
-                <div class="group-icon">PR</div>
-                <div class="info"><div class="name">Prayer Warriors</div><div class="last">Pastor Ana: Let's cover the sick list</div></div>
-                <div class="meta"><div class="time">2d</div></div>
+              <div class="lib-item" onclick="showToast(null,'Demo only — video player')">
+                <div class="lib-thumb play"><svg viewBox="0 0 24 24"><path d="M9 7l9 5-9 5V7Z" fill="var(--live-red)"/></svg></div>
+                <div class="info"><div class="t">Youth Night Highlights</div><div class="s">Video · 3:15</div></div>
+              </div>
+
+              <div class="section-label">Documents</div>
+              <div class="lib-item" onclick="showToast(null,'Demo only — document viewer')">
+                <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg></div>
+                <div class="info"><div class="t">Bible Study Guide — Romans 8.pdf</div><div class="s">Document · 1.2 MB</div></div>
+              </div>
+              <div class="lib-item" onclick="showToast(null,'Demo only — document viewer')">
+                <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg></div>
+                <div class="info"><div class="t">Membership Handbook.pdf</div><div class="s">Document · 3.4 MB</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STORIES OVERLAY -->
+          <div class="overlay" id="screen-stories">
+            <div class="ov-header">
+              <div class="ov-back" onclick="closeOverlay()"><svg viewBox="0 0 24 24" fill="none" stroke="#18161E" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></div>
+              <div><div class="ov-title">Stories</div><div class="ov-sub">DEMO DATA</div></div>
+            </div>
+            <div class="scroll">
+              <div class="stories">
+                <div class="story" onclick="openStory('Youth Ministry','#8B84A0')"><div class="ring"><div class="inner"><div class="avatar" style="background:#8B84A0;"></div></div></div><span>Youth</span></div>
+                <div class="story" onclick="openStory('Choir &amp; Worship','#7C7488')"><div class="ring"><div class="inner"><div class="avatar" style="background:#7C7488;"></div></div></div><span>Choir</span></div>
+                <div class="story" onclick="openStory('Stephanie Lindo','#6A6478')"><div class="ring seen"><div class="inner"><div class="avatar" style="background:#6A6478;"></div></div></div><span>Stephanie</span></div>
+                <div class="story" onclick="openStory('Enzo R.','#5C566A')"><div class="ring seen"><div class="inner"><div class="avatar" style="background:#5C566A;"></div></div></div><span>Enzo R.</span></div>
+                <div class="story" onclick="openStory('Outreach &amp; Missions','#7C7488')"><div class="ring"><div class="inner"><div class="avatar" style="background:#7C7488;"></div></div></div><span>Missions</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FEED OVERLAY -->
+          <div class="overlay" id="screen-feed">
+            <div class="ov-header">
+              <div class="ov-back" onclick="closeOverlay()"><svg viewBox="0 0 24 24" fill="none" stroke="#18161E" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></div>
+              <div><div class="ov-title">Feed</div><div class="ov-sub">THIS WEEK</div></div>
+            </div>
+            <div class="scroll">
+              <div class="post">
+                <div class="meta">
+                  <div class="avatar"></div>
+                  <div class="who"><div class="name">Youth Ministry</div><div class="sub">2 HOURS AGO</div></div>
+                </div>
+                <div class="body">Praise night rehearsal moved to Thursday 6PM. See you all at the fellowship hall!</div>
+                <div class="media" data-label="Photo"></div>
+                <div class="actions">
+                  <span class="a" onclick="toggleLike(this,48)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg> <b>48</b></span>
+                  <span class="a" onclick="showToast(null,'Comments — demo only')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg> 12</span>
+                </div>
+              </div>
+              <div class="post">
+                <div class="meta">
+                  <div class="avatar" style="background:#7C8B99;"></div>
+                  <div class="who"><div class="name">Stephanie Lindo</div><div class="sub">YESTERDAY</div></div>
+                </div>
+                <div class="body">Thank you all for the prayers for my mother's recovery. God is faithful.</div>
+                <div class="actions">
+                  <span class="a" onclick="toggleLike(this,96)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg> <b>96</b></span>
+                  <span class="a" onclick="showToast(null,'Comments — demo only')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg> 31</span>
+                </div>
+              </div>
+              <div class="post">
+                <div class="meta">
+                  <div class="avatar" style="background:#8A8890;"></div>
+                  <div class="who"><div class="name">TEAM International</div><div class="sub">2 DAYS AGO</div></div>
+                </div>
+                <div class="body">Replay of last Sunday's message, "Faith Over Fear," is now up. Tap Library to catch up.</div>
+                <div class="media alt" data-label="Sermon replay · 42 min">
+                  <div class="play-badge" onclick="showToast(event,'Demo only — video player')"><svg viewBox="0 0 24 24"><path d="M9 7l9 5-9 5V7Z" fill="var(--live-red)"/></svg></div>
+                </div>
+                <div class="actions">
+                  <span class="a" onclick="toggleLike(this,210)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg> <b>210</b></span>
+                  <span class="a" onclick="showToast(null,'Comments — demo only')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg> 44</span>
+                </div>
               </div>
             </div>
           </div>
@@ -622,11 +776,11 @@
             <div class="scroll">
               <div class="notif-row" onclick="notifGo('live')">
                 <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 3v18l15-9L5 3Z"/></svg></div>
-                <div class="txt"><b>Grace Fellowship</b> is live now — Sunday Worship Service<div class="time">2 min ago</div></div>
+                <div class="txt"><b>TEAM International</b> is live now — Sunday Worship Service<div class="time">2 min ago</div></div>
               </div>
               <div class="notif-row" onclick="notifGo('home')">
                 <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 8.5c0 5-8 10-8 10s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 8.5Z"/></svg></div>
-                <div class="txt"><b>Sis. Maria Santos</b> liked your comment<div class="time">1 hour ago</div></div>
+                <div class="txt"><b>Stephanie Lindo</b> liked your comment<div class="time">1 hour ago</div></div>
               </div>
               <div class="notif-row" onclick="notifGo('chat:Youth Ministry:YM')">
                 <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c.5-3 2.7-5 5.5-5s5 2 5.5 5"/></svg></div>
@@ -638,11 +792,11 @@
               </div>
               <div class="notif-row" onclick="notifGo('chat:Bible Study — Tuesdays:BS')">
                 <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5Z"/></svg></div>
-                <div class="txt"><b>Bro. Enzo</b> replied in Bible Study — Tuesdays<div class="time">Yesterday</div></div>
+                <div class="txt"><b>Bishop Sio</b> replied in Bible Study — Tuesdays<div class="time">Yesterday</div></div>
               </div>
               <div class="notif-row" onclick="notifGo('home')">
                 <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg></div>
-                <div class="txt"><b>Grace Fellowship</b> uploaded the sermon replay for "Faith Over Fear"<div class="time">2 days ago</div></div>
+                <div class="txt"><b>TEAM International</b> uploaded the sermon replay for "Faith Over Fear"<div class="time">2 days ago</div></div>
               </div>
             </div>
           </div>
@@ -673,8 +827,9 @@
             </div>
             <div class="scroll">
               <div class="profile-top">
-                <div class="profile-avatar">BD</div>
-                <div class="name">Bishop Bernard Dulfa</div>
+                <div class="profile-avatar">BT</div>
+                <div class="name">Bishop Tony</div>
+                <div class="org-tag">(Team International)</div>
                 <div class="sub">Member since Jan 2019</div>
                 <div class="profile-stats">
                   <div class="st"><div class="n">142</div><div class="l">Posts</div></div>
@@ -686,6 +841,28 @@
               <div class="profile-row" onclick="showToast(null,'Demo only')"><span>Notification settings</span><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></div>
               <div class="profile-row" onclick="showToast(null,'Demo only')"><span>Privacy</span><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></div>
               <div class="profile-row" onclick="showToast(null,'Demo only')"><span>Sign out</span><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></div>
+            </div>
+          </div>
+
+          <!-- GO-LIVE STUDIO OVERLAY -->
+          <div class="overlay" id="screen-golive">
+            <div class="ov-header">
+              <div class="ov-back" onclick="closeOverlay()"><svg viewBox="0 0 24 24" fill="none" stroke="#18161E" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></div>
+              <div><div class="ov-title">Go-Live Studio</div><div class="ov-sub">DEMO ONLY</div></div>
+            </div>
+            <div class="scroll" style="padding:20px;">
+              <div class="section-label" style="padding:0 0 10px;">Destinations</div>
+              <div class="connect-row" onclick="toggleConnect(this)">
+                <div><div class="lab">YouTube</div><div class="stat">Not connected</div></div>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l6 3-6 3V9Z" fill="currentColor" stroke="none"/></svg>
+              </div>
+              <div class="connect-row" onclick="toggleConnect(this)">
+                <div><div class="lab">Facebook</div><div class="stat">Not connected</div></div>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 8h2V4h-2a4 4 0 0 0-4 4v2H9v4h2v6h4v-6h2.5l.5-4H15V8Z"/></svg>
+              </div>
+              <div class="section-label" style="padding:18px 0 6px;">Stream title</div>
+              <input class="golive-input" placeholder="e.g. Sunday Worship Service" />
+              <div class="btn-start-stream" onclick="showToast(null,'Demo only — stream would start')"><i></i>Start Streaming</div>
             </div>
           </div>
 
@@ -705,8 +882,8 @@
               <div class="profile-row" onclick="closeOverlay(); setTab('view-reels'); showToast(null,'Demo only — reel composer')">
                 <span style="display:flex;align-items:center;gap:12px;"><span class="notif-ico" style="width:32px;height:32px;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="3"/></svg></span>New reel</span>
               </div>
-              <div class="profile-row" style="border-bottom:none;" onclick="closeOverlay(); setTab('view-live'); showToast(null,'Demo only — go live')">
-                <span style="display:flex;align-items:center;gap:12px;"><span class="notif-ico" style="width:32px;height:32px;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 3v18l15-9L5 3Z"/></svg></span>Go live</span>
+              <div class="profile-row" style="border-bottom:none;" onclick="closeOverlay(); openOverlay('screen-golive')">
+                <span style="display:flex;align-items:center;gap:12px;"><span class="notif-ico" style="width:32px;height:32px; background:var(--live-red);"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 3v18l15-9L5 3Z"/></svg></span>Go live</span>
               </div>
             </div>
           </div>
@@ -714,7 +891,7 @@
           <!-- STORY VIEWER OVERLAY -->
           <div class="overlay" id="screen-story" style="background:#0A090E;" onclick="closeOverlay()">
             <div class="reel-top" style="padding-top:16px;">
-              <span class="seg on"></span>
+              <span class="seg on" style="background:#fff;"></span>
             </div>
             <div class="ov-header" style="border-bottom:none; padding-top:10px;" onclick="event.stopPropagation()">
               <div class="ring" id="storyRing" style="width:30px;height:30px;padding:2px;"><div class="inner" style="padding:1.5px;"><div class="avatar" id="storyAvatar" style="width:100%;height:100%;"></div></div></div>
@@ -737,12 +914,16 @@
               Live
             </button>
             <button class="tab" data-view="view-reels">
-              <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="m10.5 9 4 3-4 3V9Z" fill="currentColor" stroke="none"/></svg>
+              <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M10.3 9.2 14.5 12l-4.2 2.8V9.2Z"/></svg>
               Reels
             </button>
             <button class="tab" data-view="view-groups">
               <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 19c.5-3 2.7-5 5.5-5s5 2 5.5 5"/><path d="M14.5 15.2c2 .3 3.5 1.9 4 3.8"/></svg>
               Groups
+            </button>
+            <button class="tab" data-view="view-library">
+              <svg viewBox="0 0 24 24"><path d="M4 5.5c3-1.7 6-1 8 .3v14c-2-1.3-5-2-8-.3v-14Z"/><path d="M20 5.5c-3-1.7-6-1-8 .3v14c2-1.3 5-2 8-.3v-14Z"/></svg>
+              Library
             </button>
           </div>
         </div>
@@ -757,8 +938,8 @@
           <div class="who">
             <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#0A090E" stroke-width="2.2"><path d="M12 2v20M2 12h20"/></svg></div>
             <div>
-              <h2>Grace Fellowship Admin</h2>
-              <div class="sub">SIGNED IN AS BISHOP B. DULFA</div>
+              <h2>TEAM International Admin</h2>
+              <div class="sub">SIGNED IN AS BISHOP TONY</div>
             </div>
           </div>
         </div>
@@ -808,15 +989,29 @@
           <div class="admin-section">
             <h4>Live sessions</h4>
             <div class="queue-row">
-              <div class="queue-thumb" style="background:linear-gradient(135deg,#DCEBF2,#D8EFE6);"></div>
-              <div class="info"><div class="t">Sunday Worship Service</div><div class="s">Bishop Dulfa · started 42 min ago</div></div>
+              <div class="queue-thumb" style="background:linear-gradient(135deg,#E7E7EA,#D6D5DA);"></div>
+              <div class="info"><div class="t">Sunday Worship Service</div><div class="s">Bishop Tony · started 42 min ago</div></div>
               <span class="pill live">Live</span>
             </div>
             <div class="queue-row">
               <div class="queue-thumb"></div>
-              <div class="info"><div class="t">Midweek Bible Study</div><div class="s">Bro. Enzo · scheduled Tue, 7:00 PM</div></div>
+              <div class="info"><div class="t">Midweek Bible Study</div><div class="s">Bishop Sio · scheduled Tue, 7:00 PM</div></div>
               <span class="pill ok">Scheduled</span>
             </div>
+          </div>
+
+          <div class="admin-section">
+            <h4>Go-Live Studio</h4>
+            <div class="connect-row" style="cursor:default;">
+              <div><div class="lab">YouTube</div><div class="stat">Not connected</div></div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l6 3-6 3V9Z" fill="currentColor" stroke="none"/></svg>
+            </div>
+            <div class="connect-row connected" style="cursor:default;">
+              <div><div class="lab">Facebook</div><div class="stat">Connected</div></div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 8h2V4h-2a4 4 0 0 0-4 4v2H9v4h2v6h4v-6h2.5l.5-4H15V8Z"/></svg>
+            </div>
+            <input class="golive-input" value="Sunday Worship Service" readonly />
+            <div class="btn-start-stream"><i></i>Start Streaming</div>
           </div>
         </div>
       </div>
@@ -835,6 +1030,28 @@
     bars.appendChild(b);
   }
 
+  /* ===== overlay stack navigation ===== */
+  let overlayStack = [];
+  function openOverlay(id){
+    overlayStack.push(id);
+    const el = document.getElementById(id);
+    el.style.zIndex = 50 + overlayStack.length;
+    el.classList.add('open');
+    document.querySelector('.tabbar').style.display = 'none';
+  }
+  function closeOverlay(){
+    const id = overlayStack.pop();
+    if(id){ document.getElementById(id).classList.remove('open'); }
+    if(overlayStack.length === 0){
+      document.querySelector('.tabbar').style.display = 'flex';
+    }
+  }
+  function closeAllOverlays(){
+    overlayStack.forEach(id => document.getElementById(id).classList.remove('open'));
+    overlayStack = [];
+    document.querySelector('.tabbar').style.display = 'flex';
+  }
+
   /* ===== tab switching ===== */
   function setTab(viewId){
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
@@ -844,21 +1061,12 @@
   }
   document.querySelectorAll('.tab').forEach(tab=>{
     tab.addEventListener('click', ()=>{
-      closeOverlay();
+      closeAllOverlays();
       setTab(tab.dataset.view);
     });
   });
   function goToLive(){ setTab('view-live'); }
 
-  /* ===== overlay push navigation ===== */
-  function openOverlay(id){
-    document.getElementById(id).classList.add('open');
-    document.querySelector('.tabbar').style.display = 'none';
-  }
-  function closeOverlay(){
-    document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('open'));
-    document.querySelector('.tabbar').style.display = 'flex';
-  }
   function openChat(name, code){
     document.getElementById('chatTitle').textContent = name;
     document.getElementById('chatIcon').textContent = code;
@@ -871,7 +1079,7 @@
     openOverlay('screen-story');
   }
   function notifGo(dest){
-    closeOverlay();
+    closeAllOverlays();
     if(dest === 'live'){
       setTab('view-live');
     } else if(dest === 'home'){
@@ -889,6 +1097,27 @@
     b.textContent = 'Amen 🙏';
     body.appendChild(b);
     body.scrollTop = body.scrollHeight;
+  }
+
+  /* ===== search ===== */
+  function filterSearch(){
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    document.querySelectorAll('#groupsList .group-row').forEach(row=>{
+      const name = row.dataset.name;
+      const type = row.dataset.type;
+      if(q === ''){
+        row.style.display = type === 'group' ? 'flex' : 'none';
+      } else {
+        row.style.display = name.includes(q) ? 'flex' : 'none';
+      }
+    });
+  }
+
+  /* ===== connect toggle (Go-Live Studio) ===== */
+  function toggleConnect(el){
+    el.classList.toggle('connected');
+    const stat = el.querySelector('.stat');
+    stat.textContent = el.classList.contains('connected') ? 'Connected' : 'Not connected';
   }
 
   /* ===== toast ===== */
@@ -909,26 +1138,24 @@
     b.textContent = el.classList.contains('liked') ? base + 1 : base;
   }
 
-  /* ===== live join / remind ===== */
+  /* ===== live join / remind (shared toggle style) ===== */
   function toggleJoin(el){
-    const joined = el.dataset.on === '1';
-    el.dataset.on = joined ? '0' : '1';
-    el.textContent = joined ? 'Join audio' : '✓ Joined';
-    showToast(null, joined ? 'Left live audio' : 'You joined the live audio');
+    const joined = el.classList.toggle('active');
+    el.textContent = joined ? '✓ Joined' : 'Join audio';
+    showToast(null, joined ? 'You joined the live audio' : 'Left live audio');
   }
   function toggleRemind(el){
-    const on = el.dataset.on === '1';
-    el.dataset.on = on ? '0' : '1';
-    el.textContent = on ? 'Remind me' : '✓ Reminder set';
-    showToast(null, on ? 'Reminder removed' : 'We\'ll remind you before it starts');
+    const on = el.classList.toggle('active');
+    el.textContent = on ? '✓ Reminder set' : 'Remind me';
+    showToast(null, on ? 'We\'ll remind you before it starts' : 'Reminder removed');
   }
 
   /* ===== reels ===== */
   const reels = [
-    { bg:'linear-gradient(200deg, #123049 0%, #1E6B6B 38%, #D99A3A 100%)', name:'Youth Ministry', avatar:'#D99A3A', caption:'Worship night highlights — thank you to everyone who came out! 🎤', tag:'Reel · 0:24', likes:412, comments:58 },
-    { bg:'linear-gradient(200deg, #2A1F49 0%, #6B2E5A 45%, #C9974A 100%)', name:'Choir & Worship Team', avatar:'#7C8B99', caption:'Sunday rehearsal — new arrangement for "Great Are You Lord" 🎶', tag:'Reel · 0:41', likes:298, comments:34 },
-    { bg:'linear-gradient(200deg, #123A2E 0%, #1E6B4F 45%, #8FA77D 100%)', name:'Outreach & Missions', avatar:'#8FA77D', caption:'Feeding program this weekend — over 300 families served ❤️', tag:'Reel · 0:33', likes:521, comments:76 },
-    { bg:'linear-gradient(200deg, #3A1E2A 0%, #6B2E3B 45%, #E0A030 100%)', name:'Bishop Bernard Dulfa', avatar:'#B0785F', caption:'A short word before the week begins — stay encouraged 🙏', tag:'Reel · 0:52', likes:876, comments:142 },
+    { bg:'linear-gradient(200deg, #F1F1F3 0%, #E4E4E7 50%, #D6D5DA 100%)', name:'Youth Ministry', avatar:'#8A8890', caption:'Worship night highlights — thank you to everyone who came out! 🎤', tag:'Reel · 0:24', likes:412, comments:58 },
+    { bg:'linear-gradient(200deg, #F1F1F3 0%, #E0E0E3 45%, #CFCED4 100%)', name:'Choir & Worship Team', avatar:'#7C8B99', caption:'Sunday rehearsal — new arrangement for "Great Are You Lord" 🎶', tag:'Reel · 0:41', likes:298, comments:34 },
+    { bg:'linear-gradient(200deg, #F1F1F3 0%, #DFDFE2 45%, #CBCACF 100%)', name:'Outreach & Missions', avatar:'#8FA77D', caption:'Feeding program this weekend — over 300 families served ❤️', tag:'Reel · 0:33', likes:521, comments:76 },
+    { bg:'linear-gradient(200deg, #F1F1F3 0%, #E1E1E4 45%, #D2D0D6 100%)', name:'Bishop Tony', avatar:'#B0785F', caption:'A short word before the week begins — stay encouraged 🙏', tag:'Reel · 0:52', likes:876, comments:142 },
   ];
   let reelIdx = 0;
   function renderReel(){
@@ -941,6 +1168,7 @@
     document.getElementById('reelLikeCount').textContent = r.likes;
     document.getElementById('reelCommentCount').textContent = r.comments;
     document.getElementById('reelLikeIco').classList.remove('reel-liked');
+    document.getElementById('reelLikeIco').style.background = 'rgba(0,0,0,0.06)';
     const segs = document.querySelectorAll('#reelSegs .seg');
     segs.forEach((s,i)=> s.classList.toggle('on', i === reelIdx));
   }
@@ -955,7 +1183,7 @@
     const countEl = document.getElementById('reelLikeCount');
     const base = reels[reelIdx].likes;
     countEl.textContent = liked ? base + 1 : base;
-    ico.style.background = liked ? 'rgba(194,80,62,0.35)' : 'rgba(255,255,255,0.14)';
+    ico.style.background = liked ? 'rgba(0,0,0,0.16)' : 'rgba(0,0,0,0.06)';
   }
   renderReel();
 </script>
