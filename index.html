@@ -2376,6 +2376,10 @@
             </div>
           </div>
         </div>
+        <div class="profile-row" onclick="triggerPWAInstall()" style="background:var(--app-surface-2);">
+          <span style="display:flex;align-items:center;gap:10px;font-weight:700;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M4 20h16"/></svg> Install App on Device</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 18l6-6-6-6" /></svg>
+        </div>
         <div class="profile-row" onclick="showToast(null,'Demo only')"><span>Edit profile</span><svg viewBox="0 0 24 24"
             fill="none" stroke-width="1.8">
             <path d="M9 18l6-6-6-6" />
@@ -2535,6 +2539,62 @@
           <div class="news-body">Over 300 families served during this weekend's mission drive. Thank you to all our
             dedicated volunteers!</div>
           <div class="news-meta"><span>Missions Team</span><span>3 days ago</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSTALL APP GUIDE OVERLAY -->
+    <div class="overlay" id="screen-install-help">
+      <div class="ov-header">
+        <div class="ov-back" onclick="closeOverlay()"><svg viewBox="0 0 24 24" fill="none" stroke="#18161E"
+            stroke-width="2">
+            <path d="M15 5l-7 7 7 7" />
+          </svg></div>
+        <div>
+          <div class="ov-title">Install App</div>
+          <div class="ov-sub">ADD TO HOME SCREEN</div>
+        </div>
+      </div>
+      <div class="scroll" style="padding:20px;">
+        <div class="donate-hero" style="margin-bottom:20px;">
+          <h2>Install TEAM International</h2>
+          <p>Enjoy full-screen view, fast offline access, and instant launching directly from your phone or desktop home screen.</p>
+        </div>
+
+        <div class="section-label" style="padding:0 0 8px;">Native Installation</div>
+        <button class="pay-btn-main" onclick="triggerPWAInstall()" style="margin-top:0; margin-bottom:20px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
+          Install Directly to Home Screen
+        </button>
+
+        <div class="section-label" style="padding:0 0 8px;">Browser Instructions</div>
+        <div class="news-card">
+          <div class="news-title">iOS (iPhone / iPad Safari)</div>
+          <div class="news-body" style="font-size:12.5px; margin-top:6px; line-height:1.6;">
+            1. Tap the <b>Share icon</b> at the bottom of Safari.<br>
+            2. Scroll down and select <b>"Add to Home Screen"</b>.<br>
+            3. Tap <b>Add</b> at the top right.
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-title">Android (Chrome / Edge / Firefox)</div>
+          <div class="news-body" style="font-size:12.5px; margin-top:6px; line-height:1.6;">
+            1. Tap the <b>⋮ menu</b> icon at the top right.<br>
+            2. Select <b>"Add to Home screen"</b> or <b>"Install app"</b>.<br>
+            3. Confirm installation.
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-title">Desktop (Chrome / Edge / Brave)</div>
+          <div class="news-body" style="font-size:12.5px; margin-top:6px; line-height:1.6;">
+            Look for the <b>install icon</b> (⊕ or 💻) on the right side of your browser address bar and click <b>Install</b>.
+          </div>
+        </div>
+
+        <div style="text-align:center; font-family:var(--font-mono); font-size:10px; color:var(--text-low); margin-top:14px;">
+          NOTE: PWA installation requires hosting over HTTPS or localhost server.
         </div>
       </div>
     </div>
@@ -3151,6 +3211,32 @@
         const txt = row.textContent.toLowerCase();
         row.style.display = txt.includes(q) ? 'flex' : 'none';
       });
+    }
+
+    /* ===== PWA INSTALLATION LOGIC ===== */
+    let pwaDeferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      pwaDeferredPrompt = e;
+    });
+
+    function triggerPWAInstall() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (isStandalone) {
+        showToast(null, '✓ App is already installed on your device!');
+        return;
+      }
+      if (pwaDeferredPrompt) {
+        pwaDeferredPrompt.prompt();
+        pwaDeferredPrompt.userChoice.then(({ outcome }) => {
+          if (outcome === 'accepted') {
+            showToast(null, '✓ App installed successfully!');
+          }
+          pwaDeferredPrompt = null;
+        });
+      } else {
+        openOverlay('screen-install-help');
+      }
     }
   </script>
 
