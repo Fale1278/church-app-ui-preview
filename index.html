@@ -1703,8 +1703,38 @@
 
   <div class="screen">
 
+    <!-- INSTALL APP (FIRST VIEW) -->
+    <div class="view active" id="view-install" style="background:#0E0E10; color:#fff; display:flex; flex-direction:column; justify-content:center; padding:32px 24px; text-align:center; position:relative; z-index:100;">
+      <div style="margin:0 auto 20px; width:72px; height:72px; border-radius:20px; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 30px rgba(255,255,255,0.15);">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#0E0E10" stroke-width="2.4"><path d="M12 2v20M2 12h20"/></svg>
+      </div>
+
+      <h1 style="font-family:var(--font-display); font-size:26px; font-weight:700; color:#fff; margin-bottom:8px;">TEAM International</h1>
+      <p style="font-family:var(--font-body); font-size:13.5px; color:#A6A4AC; line-height:1.55; max-width:320px; margin:0 auto 28px;">
+        Install the official church app to your home screen for full-screen view, fast performance, and instant access.
+      </p>
+
+      <div style="max-width:320px; margin:0 auto; width:100%;">
+        <button class="pay-btn-main" onclick="triggerPWAInstall()" style="background:#fff; color:#0E0E10; font-size:15px; padding:16px; margin-top:0; margin-bottom:14px; box-shadow:0 10px 24px rgba(255,255,255,0.2);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E0E10" stroke-width="2"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
+          Install App to Device
+        </button>
+
+        <div style="background:#18171B; border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:16px; text-align:left; font-size:12px; color:#D8D6DC; line-height:1.6; margin-bottom:20px;">
+          <b style="color:#fff; display:block; margin-bottom:6px; font-family:var(--font-display);">Installation Instructions:</b>
+          • <b>iOS Safari:</b> Tap Share <span style="font-size:14px;">[↑]</span> → "Add to Home Screen"<br>
+          • <b>Android / Chrome:</b> Tap menu <b>⋮</b> → "Install app"<br>
+          • <b>Desktop:</b> Click the <b>Install icon</b> in your address bar
+        </div>
+
+        <div style="color:#A6A4AC; font-family:var(--font-mono); font-size:12px; text-decoration:underline; cursor:pointer; padding:8px;" onclick="skipInstallView()">
+          Continue to App in Browser →
+        </div>
+      </div>
+    </div>
+
     <!-- HOME -->
-    <div class="view active" id="view-home">
+    <div class="view" id="view-home">
       <div class="scroll">
         <div class="home-header">
           <div class="row1">
@@ -3231,6 +3261,7 @@
         pwaDeferredPrompt.userChoice.then(({ outcome }) => {
           if (outcome === 'accepted') {
             showToast(null, '✓ App installed successfully!');
+            skipInstallView();
           }
           pwaDeferredPrompt = null;
         });
@@ -3238,6 +3269,29 @@
         openOverlay('screen-install-help');
       }
     }
+
+    function skipInstallView() {
+      sessionStorage.setItem('installDismissed', 'true');
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-home').classList.add('active');
+      document.querySelector('.tabbar').style.display = 'flex';
+    }
+
+    /* ===== STARTUP CHECK: SHOW INSTALL VIEW FIRST ===== */
+    (function initInstallCheck() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      const isDismissed = sessionStorage.getItem('installDismissed') === 'true';
+
+      if (isStandalone || isDismissed) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById('view-home').classList.add('active');
+        document.querySelector('.tabbar').style.display = 'flex';
+      } else {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById('view-install').classList.add('active');
+        document.querySelector('.tabbar').style.display = 'none';
+      }
+    })();
   </script>
 
 </body>
