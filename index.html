@@ -3243,16 +3243,32 @@
       });
     }
 
-    /* ===== PWA INSTALLATION LOGIC ===== */
+    /* ===== PWA INSTALLATION & PERMANENT STATE LOGIC ===== */
     let pwaDeferredPrompt = null;
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       pwaDeferredPrompt = e;
     });
 
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('teamAppInstalled', 'true');
+      localStorage.setItem('installDismissed', 'true');
+      showToast(null, '✓ App installed! Opening Home…');
+      skipInstallView();
+    });
+
+    function isAppInstalledOrStandalone() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+        || window.matchMedia('(display-mode: fullscreen)').matches
+        || window.matchMedia('(display-mode: minimal-ui)').matches
+        || window.navigator.standalone === true;
+      const isSaved = localStorage.getItem('teamAppInstalled') === 'true'
+        || localStorage.getItem('installDismissed') === 'true';
+      return isStandalone || isSaved;
+    }
+
     function triggerPWAInstall() {
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-      if (isStandalone) {
+      if (isAppInstalledOrStandalone() && (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true)) {
         showToast(null, '✓ App is already installed on your device!');
         return;
       }
@@ -3260,6 +3276,8 @@
         pwaDeferredPrompt.prompt();
         pwaDeferredPrompt.userChoice.then(({ outcome }) => {
           if (outcome === 'accepted') {
+            localStorage.setItem('teamAppInstalled', 'true');
+            localStorage.setItem('installDismissed', 'true');
             showToast(null, '✓ App installed successfully!');
             skipInstallView();
           }
@@ -3271,18 +3289,16 @@
     }
 
     function skipInstallView() {
-      sessionStorage.setItem('installDismissed', 'true');
+      localStorage.setItem('teamAppInstalled', 'true');
+      localStorage.setItem('installDismissed', 'true');
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.getElementById('view-home').classList.add('active');
       document.querySelector('.tabbar').style.display = 'flex';
     }
 
-    /* ===== STARTUP CHECK: SHOW INSTALL VIEW FIRST ===== */
+    /* ===== STARTUP CHECK: SHOW HOMEPAGE IF INSTALLED OR DISMISSED ===== */
     (function initInstallCheck() {
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-      const isDismissed = sessionStorage.getItem('installDismissed') === 'true';
-
-      if (isStandalone || isDismissed) {
+      if (isAppInstalledOrStandalone()) {
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         document.getElementById('view-home').classList.add('active');
         document.querySelector('.tabbar').style.display = 'flex';
