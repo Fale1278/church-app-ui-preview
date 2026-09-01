@@ -2,7 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>TEAM International — UI Prototype v7</title>
+<title>TEAM International</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E0E10">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TEAM Intl">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -486,6 +495,18 @@
   .a{ cursor:pointer; }
   .group-row{ cursor:pointer; }
   .reel-tapzone{ position:absolute; top:0; bottom:0; width:50%; z-index:5; }
+
+  /* ===== PWA: installed standalone mode — show ONLY the phone app, full-bleed ===== */
+  @media (display-mode: standalone){
+    body{ padding:0; }
+    .rig-head, .phone-label, .admin-wrap{ display:none; }
+    .stage{ display:block; }
+    #mobileWrap{ align-items:stretch; }
+    .phone{
+      width:100vw; height:100vh; max-width:none; border-radius:0; padding:0; box-shadow:none; background:#000;
+    }
+    .screen{ width:100%; height:100%; border-radius:0; }
+  }
 </style>
 </head>
 <body>
@@ -500,7 +521,7 @@
   <div class="stage">
 
     <!-- ============ PHONE ============ -->
-    <div class="phone-wrap">
+    <div class="phone-wrap" id="mobileWrap">
       <span class="phone-label">Mobile — congregation</span>
       <div class="phone">
         <div class="screen">
@@ -931,7 +952,7 @@
     </div>
 
     <!-- ============ ADMIN ============ -->
-    <div class="phone-wrap" style="align-items:stretch;">
+    <div class="phone-wrap admin-wrap" style="align-items:stretch;">
       <span class="phone-label" style="text-align:center;">Web — admin dashboard</span>
       <div class="admin">
         <div class="admin-top">
@@ -1186,6 +1207,13 @@
     ico.style.background = liked ? 'rgba(0,0,0,0.16)' : 'rgba(0,0,0,0.06)';
   }
   renderReel();
+
+  /* ===== PWA install support ===== */
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('sw.js').catch(()=>{});
+    });
+  }
 </script>
 
 </body>
