@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Install TEAM International</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E0E10">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter', sans-serif; background:#0E0E10; color:#fff;
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:32px 24px; text-align:center;
+  }
+  .mark{
+    width:64px; height:64px; border-radius:18px; background:#fff;
+    display:flex; align-items:center; justify-content:center; margin-bottom:24px;
+  }
+  .mark svg{ width:30px; height:30px; }
+  h1{ font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:700; margin-bottom:8px; }
+  p{ color:#A6A4AC; font-size:14px; max-width:320px; line-height:1.55; margin-bottom:32px; }
+  #installBtn{
+    background:#fff; color:#0E0E10; border:none; padding:16px 36px; border-radius:30px;
+    font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:15px; cursor:pointer;
+    display:none; align-items:center; gap:10px;
+  }
+  #installBtn.show{ display:inline-flex; }
+  #manualBox{
+    display:none; background:#18171B; border:1px solid rgba(255,255,255,0.1); border-radius:16px;
+    padding:20px; max-width:320px; text-align:left; font-size:13px; line-height:1.7; color:#D8D6DC;
+  }
+  #manualBox.show{ display:block; }
+  #manualBox b{ color:#fff; }
+  .step{ display:flex; gap:10px; margin-bottom:10px; align-items:flex-start; }
+  .step .n{
+    width:20px; height:20px; border-radius:50%; background:#fff; color:#0E0E10;
+    font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;
+  }
+  #openLink{ margin-top:26px; color:#6B6A70; font-size:12px; text-decoration:underline; cursor:pointer; }
+  #already{ display:none; color:#8FA77D; font-size:13px; margin-top:18px; font-weight:600; }
+  #already.show{ display:block; }
+</style>
+</head>
+<body>
+
+  <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#0E0E10" stroke-width="2.4"><path d="M12 2v20M2 12h20"/></svg></div>
+  <h1>TEAM International</h1>
+  <p>Install the app to your home screen — opens full-screen, just like any other app.</p>
+
+  <button id="installBtn" onclick="doInstall()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E0E10" stroke-width="2"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
+    Install App
+  </button>
+
+  <div id="manualBox">
+    <div id="iosSteps" style="display:none;">
+      <div class="step"><span class="n">1</span><span>Tap the <b>Share</b> icon at the bottom of Safari (square with an arrow).</span></div>
+      <div class="step"><span class="n">2</span><span>Scroll down and tap <b>"Add to Home Screen."</b></span></div>
+      <div class="step"><span class="n">3</span><span>Tap <b>Add</b> in the top corner. The icon will appear on your home screen.</span></div>
+    </div>
+    <div id="androidSteps" style="display:none;">
+      <div class="step"><span class="n">1</span><span>Tap the <b>⋮ menu</b> in the top-right of your browser.</span></div>
+      <div class="step"><span class="n">2</span><span>Tap <b>"Add to Home screen"</b> or <b>"Install app."</b></span></div>
+      <div class="step"><span class="n">3</span><span>Confirm. The icon will appear on your home screen.</span></div>
+    </div>
+    <div id="desktopSteps" style="display:none;">
+      <div class="step"><span class="n">1</span><span>Look for an <b>install icon</b> in your browser's address bar (usually on the right side).</span></div>
+      <div class="step"><span class="n">2</span><span>Click it, then click <b>Install</b>.</span></div>
+    </div>
+  </div>
+
+  <div id="already">✓ Already installed — open it from your home screen.</div>
+
+  <div id="openLink" onclick="window.location.href='index.html'">Or just open the app in browser →</div>
+
+<script>
+  let deferredPrompt = null;
+  const installBtn = document.getElementById('installBtn');
+  const manualBox = document.getElementById('manualBox');
+  const alreadyMsg = document.getElementById('already');
+
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+    || window.navigator.standalone === true;
+
+  const ua = navigator.userAgent;
+  const isIOS = /iphone|ipad|ipod/i.test(ua);
+  const isAndroid = /android/i.test(ua);
+
+  if (isStandalone) {
+    alreadyMsg.classList.add('show');
+  } else if (isIOS) {
+    // iOS never fires beforeinstallprompt — always show manual steps
+    manualBox.classList.add('show');
+    document.getElementById('iosSteps').style.display = 'block';
+  } else {
+    // Android Chrome / desktop Chrome: wait to see if the native prompt is available
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.classList.add('show');
+    });
+    // fallback if the event never fires (unsupported browser, or criteria not met yet)
+    setTimeout(() => {
+      if (!deferredPrompt && !isStandalone) {
+        manualBox.classList.add('show');
+        document.getElementById(isAndroid ? 'androidSteps' : 'desktopSteps').style.display = 'block';
+      }
+    }, 1800);
+  }
+
+  async function doInstall(){
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    installBtn.classList.remove('show');
+    if (outcome === 'accepted') {
+      alreadyMsg.textContent = '✓ Installed — check your home screen.';
+      alreadyMsg.classList.add('show');
+    }
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(()=>{});
+    });
+  }
+</script>
+
+</body>
+</html>
