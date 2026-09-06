@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>TEAM International</title>
+  <title>Team International (With Bishop Tony)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0E0E10">
@@ -811,7 +811,8 @@
     /* shared toggle button style — Join Audio / Remind Me / Connect rows */
     .live-actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
+      width: 100%;
     }
 
     .btn-toggle {
@@ -819,14 +820,15 @@
       border: 1.5px solid var(--ink-1);
       color: var(--ink-1);
       text-align: center;
-      padding: 12px;
+      padding: 10px 4px;
       border-radius: 14px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       font-family: var(--font-display);
       background: transparent;
       cursor: pointer;
       transition: all .15s ease;
+      white-space: nowrap;
     }
 
     .btn-toggle.active {
@@ -1736,7 +1738,10 @@
         <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#0E0E10" stroke-width="2.4"><path d="M12 2v20M2 12h20"/></svg>
       </div>
 
-      <h1 style="font-family:var(--font-display); font-size:26px; font-weight:700; color:#fff; margin-bottom:8px;">TEAM International</h1>
+      <h1 style="font-family:var(--font-display); font-size:24px; font-weight:700; color:#fff; margin-bottom:8px; display:flex; flex-direction:column; align-items:center; gap:4px;">
+        Team International
+        <span style="font-size:14px; font-weight:400; color:#A6A4AC; font-family:var(--font-body);">(With Bishop Tony)</span>
+      </h1>
       <p style="font-family:var(--font-body); font-size:13.5px; color:#A6A4AC; line-height:1.55; max-width:320px; margin:0 auto 28px;">
         Install the official church app to your home screen for full-screen view, fast performance, and instant access.
       </p>
@@ -1770,7 +1775,7 @@
                   viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
                   <path d="M12 2v20M2 12h20" />
                 </svg></div>
-              <span>Team International</span>
+              <span>Team International <span style="font-size:11px; font-weight:400; color:var(--text-mid); margin-left:2px;">(With Bishop Tony)</span></span>
             </div>
             <div style="display:flex; gap:8px;">
               <div class="icon-btn" onclick="openOverlay('screen-donates')" title="Donate">
@@ -1846,12 +1851,9 @@
           <div class="host-name">Bishop Tony <span class="org-tag">(Team International)</span></div>
           <div class="host">Multi-speaker session</div>
           <div class="live-actions">
-            <div style="display:flex; gap:10px; width:100%;">
-              <span class="btn-toggle" id="joinBtn" onclick="toggleJoin(this)">Join audio</span>
-              <span class="btn-toggle" id="remindBtn" onclick="toggleRemind(this)">Remind me</span>
-            </div>
-            <span class="btn-toggle btn-share-black" id="connectBtn" onclick="shareLiveSession(this)">Invite /
-              Share</span>
+            <span class="btn-toggle" id="joinBtn" onclick="toggleJoin(this)">Join audio</span>
+            <span class="btn-toggle" id="remindBtn" onclick="toggleRemind(this)">Remind me</span>
+            <span class="btn-toggle btn-share-black" id="connectBtn" onclick="shareLiveSession(this)">Invite</span>
           </div>
         </div>
         <div class="section-label">Live chat</div>
@@ -2102,25 +2104,45 @@
           </div>
         </div>
 
-        <div class="section-label">Documents</div>
-        <div class="lib-item" onclick="showToast(null,'Demo only — document viewer')">
+        <div class="section-label">Books By Bishop Tony</div>
+        <div class="lib-item" onclick="showToast(null,'Opening book preview...')">
           <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8">
-              <path d="M7 3h7l4 4v14H7z" />
-              <path d="M14 3v4h4" />
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
             </svg></div>
           <div class="info">
-            <div class="t">Bible Study Guide — Romans 8.pdf</div>
-            <div class="s">Document · 1.2 MB</div>
+            <div class="t">Faith Over Fear: Walking in Victory</div>
+            <div class="s">Book by Bishop Tony · 2.4 MB PDF</div>
           </div>
         </div>
-        <div class="lib-item" onclick="showToast(null,'Demo only — document viewer')">
+        <div class="lib-item" onclick="showToast(null,'Opening book preview...')">
           <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8">
-              <path d="M7 3h7l4 4v14H7z" />
-              <path d="M14 3v4h4" />
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
             </svg></div>
           <div class="info">
-            <div class="t">Membership Handbook.pdf</div>
-            <div class="s">Document · 3.4 MB</div>
+            <div class="t">The Power of Divine Purpose</div>
+            <div class="s">Book by Bishop Tony · 3.1 MB PDF</div>
+          </div>
+        </div>
+        <div class="lib-item" onclick="showToast(null,'Opening book preview...')">
+          <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg></div>
+          <div class="info">
+            <div class="t">Kingdom Leadership & Growth</div>
+            <div class="s">Book by Bishop Tony · 1.8 MB PDF</div>
+          </div>
+        </div>
+        <div class="lib-item" onclick="showToast(null,'Opening book preview...')">
+          <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg></div>
+          <div class="info">
+            <div class="t">Living by Unshakable Grace</div>
+            <div class="s">Book by Bishop Tony · 4.2 MB PDF</div>
           </div>
         </div>
       </div>
@@ -2656,6 +2678,60 @@
       </div>
     </div>
 
+    <!-- GALLERY OVERLAY -->
+    <div class="overlay" id="screen-gallery">
+      <div class="ov-header">
+        <div class="ov-back" onclick="closeOverlay()"><svg viewBox="0 0 24 24" fill="none" stroke="#18161E"
+            stroke-width="2">
+            <path d="M15 5l-7 7 7 7" />
+          </svg></div>
+        <div>
+          <div class="ov-title">Photo Gallery</div>
+          <div class="ov-sub">TEAM INTERNATIONAL (WITH BISHOP TONY)</div>
+        </div>
+      </div>
+      <div class="scroll" style="padding:20px;">
+        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:12px;">
+          <div style="background:var(--app-surface-2); border-radius:14px; overflow:hidden; border:1px solid var(--line); cursor:pointer;" onclick="showToast(null,'Opening photo album...')">
+            <div style="height:110px; background:linear-gradient(135deg, #2c3e50, #4ca1af); display:flex; align-items:center; justify-content:center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div style="padding:10px;">
+              <div style="font-size:13px; font-weight:700; color:var(--text-hi);">Sunday Worship</div>
+              <div style="font-size:11px; color:var(--text-mid);">18 Photos</div>
+            </div>
+          </div>
+          <div style="background:var(--app-surface-2); border-radius:14px; overflow:hidden; border:1px solid var(--line); cursor:pointer;" onclick="showToast(null,'Opening photo album...')">
+            <div style="height:110px; background:linear-gradient(135deg, #614385, #516395); display:flex; align-items:center; justify-content:center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div style="padding:10px;">
+              <div style="font-size:13px; font-weight:700; color:var(--text-hi);">Praise Night</div>
+              <div style="font-size:11px; color:var(--text-mid);">24 Photos</div>
+            </div>
+          </div>
+          <div style="background:var(--app-surface-2); border-radius:14px; overflow:hidden; border:1px solid var(--line); cursor:pointer;" onclick="showToast(null,'Opening photo album...')">
+            <div style="height:110px; background:linear-gradient(135deg, #16222a, #3a6073); display:flex; align-items:center; justify-content:center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div style="padding:10px;">
+              <div style="font-size:13px; font-weight:700; color:var(--text-hi);">Youth Fellowship</div>
+              <div style="font-size:11px; color:var(--text-mid);">32 Photos</div>
+            </div>
+          </div>
+          <div style="background:var(--app-surface-2); border-radius:14px; overflow:hidden; border:1px solid var(--line); cursor:pointer;" onclick="showToast(null,'Opening photo album...')">
+            <div style="height:110px; background:linear-gradient(135deg, #0f2027, #203a43); display:flex; align-items:center; justify-content:center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div style="padding:10px;">
+              <div style="font-size:13px; font-weight:700; color:var(--text-hi);">Global Outreach</div>
+              <div style="font-size:11px; color:var(--text-mid);">15 Photos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- EVENTS OVERLAY -->
     <div class="overlay" id="screen-events">
       <div class="ov-header">
@@ -2819,6 +2895,14 @@
                 <path d="M7 10h10" />
                 <path d="M7 14h10" />
               </svg></span>News & Announcements</span>
+        </div>
+        <div class="profile-row" onclick="closeOverlay(); openOverlay('screen-gallery')">
+          <span style="display:flex;align-items:center;gap:12px;"><span class="notif-ico"
+              style="width:32px;height:32px; background:var(--ink-1);"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg></span>Photo Gallery</span>
         </div>
         <div class="profile-row" onclick="closeOverlay(); openOverlay('screen-events')">
           <span style="display:flex;align-items:center;gap:12px;"><span class="notif-ico"
@@ -3246,6 +3330,21 @@
       input.value = '';
       cancelPostReply();
       showToast(null, 'Comment added');
+    }
+
+    /* ===== TOGGLE JOIN & REMIND FUNCTIONS ===== */
+    function toggleJoin(btn) {
+      btn.classList.toggle('active');
+      const isActive = btn.classList.contains('active');
+      btn.textContent = isActive ? 'Joined' : 'Join audio';
+      showToast(null, isActive ? 'Connected to live audio' : 'Left live audio stream');
+    }
+
+    function toggleRemind(btn) {
+      btn.classList.toggle('active');
+      const isActive = btn.classList.contains('active');
+      btn.textContent = isActive ? 'Reminded' : 'Remind me';
+      showToast(null, isActive ? 'Reminder set for service' : 'Reminder cancelled');
     }
 
     /* ===== SHARE / INVITE UTILS ===== */
