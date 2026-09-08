@@ -1,5 +1,14 @@
-const CACHE_NAME = 'team-international-v1';
-const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
+const CACHE_NAME = 'team-international-v2';
+const ASSETS = [
+  './',
+  './index.html',
+  './install.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './assets/team-logo.png',
+  './assets/book.png'
+];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -34,3 +43,4 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+

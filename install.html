@@ -17,10 +17,11 @@
     padding:32px 24px; text-align:center;
   }
   .mark{
-    width:64px; height:64px; border-radius:18px; background:#fff;
+    width:72px; height:72px; border-radius:20px; background:#fff;
     display:flex; align-items:center; justify-content:center; margin-bottom:24px;
+    box-shadow: 0 10px 25px rgba(255,255,255,0.15); overflow:hidden; padding:4px;
   }
-  .mark svg{ width:30px; height:30px; }
+  .mark img{ width:100%; height:100%; object-fit:contain; border-radius:16px; }
   h1{ font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:700; margin-bottom:8px; }
   h1 .sub-title { font-size:16px; font-weight:400; color:#A6A4AC; font-family:'Inter', sans-serif; display:inline-block; margin-left:4px; }
   p{ color:#A6A4AC; font-size:14px; max-width:320px; line-height:1.55; margin-bottom:32px; }
@@ -48,7 +49,7 @@
 </head>
 <body>
 
-  <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#0E0E10" stroke-width="2.4"><path d="M12 2v20M2 12h20"/></svg></div>
+  <div class="mark"><img src="assets/team-logo.png" alt="Team International Logo"></div>
   <h1>Team International <span class="sub-title">(With Bishop Tony)</span></h1>
   <p>Install the app to your home screen — opens full-screen, just like any other app.</p>
 

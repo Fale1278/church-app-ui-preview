@@ -124,14 +124,23 @@
     }
 
     .brandmark .mark {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 8px;
-      background: var(--ink-1);
+      background: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      padding: 2px;
+    }
+
+    .brandmark .mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .brandmark .mark svg {
@@ -1734,8 +1743,8 @@
 
     <!-- INDEPENDENT INSTALL LANDING VIEW (PWA ONBOARDING) -->
     <div class="install-landing-view" id="installLandingView">
-      <div style="margin:0 auto 20px; width:72px; height:72px; border-radius:20px; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 30px rgba(255,255,255,0.15);">
-        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#0E0E10" stroke-width="2.4"><path d="M12 2v20M2 12h20"/></svg>
+      <div style="margin:0 auto 20px; width:76px; height:76px; border-radius:22px; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 30px rgba(255,255,255,0.15); overflow:hidden; padding:4px;">
+        <img src="assets/team-logo.png" alt="Team International Logo" style="width:100%; height:100%; object-fit:contain; border-radius:18px;">
       </div>
 
       <h1 style="font-family:var(--font-display); font-size:24px; font-weight:700; color:#fff; margin-bottom:8px; display:flex; flex-direction:column; align-items:center; gap:4px;">
@@ -1771,10 +1780,7 @@
         <div class="home-header">
           <div class="row1">
             <div class="brandmark">
-              <div class="mark" onclick="openOverlay('screen-add')" title="Add news or quick actions"><svg
-                  viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-                  <path d="M12 2v20M2 12h20" />
-                </svg></div>
+              <div class="mark" onclick="openOverlay('screen-add')" title="Team International Logo"><img src="assets/team-logo.png" alt="Team International Logo"></div>
               <span>Team International <span style="font-size:11px; font-weight:400; color:var(--text-mid); margin-left:2px;">(With Bishop Tony)</span></span>
             </div>
             <div style="display:flex; gap:8px;">
@@ -1841,10 +1847,14 @@
     <!-- LIVE -->
     <div class="view" id="view-live">
       <div class="scroll" style="padding-top:24px;">
-        <div class="live-stage">
-          <span class="live-badge"><span class="d"></span>Live</span>
-          <span class="viewers">312 watching</span>
+        <div class="live-stage" style="position:relative; overflow:hidden;">
+          <span class="live-badge" style="z-index:5;"><span class="d"></span>Live</span>
+          <span class="viewers" style="z-index:5;">312 watching</span>
           <div class="waveform" id="wave"></div>
+          <video id="liveStreamVideo" src="Videos/team video.mp4" playsinline loop muted autoplay style="display:none; width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; border-radius:18px; z-index:2;"></video>
+          <div style="position:absolute; bottom:12px; right:12px; z-index:10;">
+            <span onclick="toggleLiveMediaMode()" id="liveMediaModeBtn" style="font-family:var(--font-mono); font-size:10px; font-weight:600; background:rgba(0,0,0,0.65); color:#fff; padding:6px 12px; border-radius:14px; backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.2); cursor:pointer;">📹 Switch to Video</span>
+          </div>
         </div>
         <div class="live-info">
           <h3>Sunday Worship Service</h3>
@@ -1895,13 +1905,18 @@
     <!-- REELS -->
     <div class="view" id="view-reels">
       <div class="reel-screen">
-        <div class="reel-bg" id="reelBg"></div>
-        <div class="reel-tapzone" style="left:0;" onclick="reelNav(-1)"></div>
-        <div class="reel-tapzone" style="right:0;" onclick="reelNav(1)"></div>
-        <div class="reel-top" id="reelSegs">
+        <video id="reelVideo" src="Videos/team video.mp4" playsinline loop muted autoplay style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:1;"></video>
+        <div class="reel-bg" id="reelBg" style="background:transparent; z-index:2; pointer-events:none;"></div>
+        <div class="reel-tapzone" style="left:0; z-index:10;" onclick="reelNav(-1)"></div>
+        <div class="reel-tapzone" style="right:0; z-index:10;" onclick="reelNav(1)"></div>
+        <div class="reel-top" id="reelSegs" style="z-index:11;">
           <span class="seg on"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span>
         </div>
-        <div class="reel-rail">
+        <div class="reel-rail" style="z-index:11;">
+          <div class="item">
+            <div class="ico" onclick="toggleReelAudio(event)" id="reelAudioIco" style="background:rgba(255,255,255,0.85);"><svg viewBox="0 0 24 24" fill="none" stroke="#161616" stroke-width="1.8"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div>
+            <span id="reelAudioLabel">Sound</span>
+          </div>
           <div class="item">
             <div class="ico" onclick="reelLike(event)" id="reelLikeIco"><svg viewBox="0 0 24 24" fill="none"
                 stroke="#161616" stroke-width="1.8">
@@ -1915,7 +1930,7 @@
               </svg></div><span id="reelCommentCount">58</span>
           </div>
           <div class="item">
-            <div class="ico" onclick="showToast(event,'Share — demo only')"><svg viewBox="0 0 24 24" fill="none"
+            <div class="ico" onclick="shareLiveSession(this)"><svg viewBox="0 0 24 24" fill="none"
                 stroke="#161616" stroke-width="1.8">
                 <circle cx="6" cy="12" r="2.3" />
                 <circle cx="18" cy="6" r="2.3" />
@@ -1924,18 +1939,18 @@
               </svg></div><span>Share</span>
           </div>
         </div>
-        <div class="reel-content">
+        <div class="reel-content" style="z-index:11;">
           <div class="reel-caption">
             <div class="who">
               <div class="ring">
                 <div class="inner" style="padding:2px;">
-                  <div class="avatar" id="reelAvatar" style="background:#8A8890;"></div>
+                  <div class="avatar" id="reelAvatar" style="background:#8A8890; overflow:hidden;"><img src="assets/team-logo.png" style="width:100%;height:100%;object-fit:cover;"></div>
                 </div>
               </div>
-              <span class="name" id="reelName">Youth Ministry</span>
+              <span class="name" id="reelName">TEAM International</span>
             </div>
-            <div class="txt" id="reelCaption">Worship night highlights — thank you to everyone who came out! 🎤</div>
-            <span class="tag"><i></i><span id="reelTag">Reel · 0:24</span></span>
+            <div class="txt" id="reelCaption">Worship night highlights — official video clip! 🎤</div>
+            <span class="tag"><i></i><span id="reelTag">Featured Video · 24.6 MB MP4</span></span>
           </div>
         </div>
       </div>
@@ -2084,66 +2099,68 @@
           </div>
         </div>
 
-        <div class="section-label">Video</div>
-        <div class="lib-item" onclick="showToast(null,'Demo only — video player')">
+        <div class="section-label">Video Broadcasts & Replays</div>
+        <div class="lib-item" onclick="openVideoPlayer('Faith Over Fear — Official Replay','Videos/team video.mp4')">
           <div class="lib-thumb play"><svg viewBox="0 0 24 24">
               <path d="M9 7l9 5-9 5V7Z" fill="var(--live-red)" />
             </svg></div>
           <div class="info">
-            <div class="t">Faith Over Fear — Replay</div>
-            <div class="s">Video · 42:10</div>
+            <div class="t">Faith Over Fear — Sunday Sermon</div>
+            <div class="s">Full Video Replay · 24.6 MB MP4</div>
           </div>
+          <span style="font-family:var(--font-mono); font-size:10px; font-weight:600; color:var(--live-red); background:var(--live-red-soft); padding:4px 8px; border-radius:10px;">Play Video</span>
         </div>
-        <div class="lib-item" onclick="showToast(null,'Demo only — video player')">
+        <div class="lib-item" onclick="openVideoPlayer('Youth Night Highlights','Videos/team video.mp4')">
           <div class="lib-thumb play"><svg viewBox="0 0 24 24">
               <path d="M9 7l9 5-9 5V7Z" fill="var(--live-red)" />
             </svg></div>
           <div class="info">
-            <div class="t">Youth Night Highlights</div>
-            <div class="s">Video · 3:15</div>
+            <div class="t">Youth Night Worship Highlights</div>
+            <div class="s">Reel & Highlights · 24.6 MB MP4</div>
           </div>
+          <span style="font-family:var(--font-mono); font-size:10px; font-weight:600; color:var(--live-red); background:var(--live-red-soft); padding:4px 8px; border-radius:10px;">Play Video</span>
         </div>
 
         <div class="section-label">Books By Bishop Tony</div>
-        <div class="lib-item" onclick="showToast(null,'Opening book preview...')">
-          <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg></div>
+        <div class="lib-item" onclick="openBookDetail('Faith Over Fear: Walking in Victory', 'Official publication by Bishop Tony detailing how to walk in unshakeable faith, victory, and kingdom authority.')">
+          <div class="lib-thumb" style="width:48px; height:62px; background:none; border-radius:6px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.18);">
+            <img src="assets/book.png" alt="Faith Over Fear Book" style="width:100%; height:100%; object-fit:cover;">
+          </div>
           <div class="info">
             <div class="t">Faith Over Fear: Walking in Victory</div>
-            <div class="s">Book by Bishop Tony · 2.4 MB PDF</div>
+            <div class="s">Book by Bishop Tony · Official Edition</div>
           </div>
+          <span style="font-family:var(--font-mono); font-size:10px; font-weight:600; color:var(--ink-1); background:var(--app-surface-2); padding:4px 8px; border-radius:10px;">Preview</span>
         </div>
-        <div class="lib-item" onclick="showToast(null,'Opening book preview...')">
-          <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg></div>
+        <div class="lib-item" onclick="openBookDetail('The Power of Divine Purpose', 'Bishop Tony guides believers into recognizing and executing their God-given destiny with clarity and prayer.')">
+          <div class="lib-thumb" style="width:48px; height:62px; background:none; border-radius:6px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.18);">
+            <img src="assets/book.png" alt="The Power of Divine Purpose Book" style="width:100%; height:100%; object-fit:cover;">
+          </div>
           <div class="info">
             <div class="t">The Power of Divine Purpose</div>
-            <div class="s">Book by Bishop Tony · 3.1 MB PDF</div>
+            <div class="s">Book by Bishop Tony · Hardcover & eBook</div>
           </div>
+          <span style="font-family:var(--font-mono); font-size:10px; font-weight:600; color:var(--ink-1); background:var(--app-surface-2); padding:4px 8px; border-radius:10px;">Preview</span>
         </div>
-        <div class="lib-item" onclick="showToast(null,'Opening book preview...')">
-          <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg></div>
+        <div class="lib-item" onclick="openBookDetail('Kingdom Leadership & Growth', 'Principles of servant leadership and spiritual expansion for church workers and ministers.')">
+          <div class="lib-thumb" style="width:48px; height:62px; background:none; border-radius:6px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.18);">
+            <img src="assets/book.png" alt="Kingdom Leadership Book" style="width:100%; height:100%; object-fit:cover;">
+          </div>
           <div class="info">
             <div class="t">Kingdom Leadership & Growth</div>
-            <div class="s">Book by Bishop Tony · 1.8 MB PDF</div>
+            <div class="s">Book by Bishop Tony · Leadership Guide</div>
           </div>
+          <span style="font-family:var(--font-mono); font-size:10px; font-weight:600; color:var(--ink-1); background:var(--app-surface-2); padding:4px 8px; border-radius:10px;">Preview</span>
         </div>
-        <div class="lib-item" onclick="showToast(null,'Opening book preview...')">
-          <div class="lib-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="#57565C" stroke-width="1.8">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg></div>
+        <div class="lib-item" onclick="openBookDetail('Living by Unshakable Grace', 'Discovering the daily power of God\'s covenant grace in times of difficulty and trial.')">
+          <div class="lib-thumb" style="width:48px; height:62px; background:none; border-radius:6px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.18);">
+            <img src="assets/book.png" alt="Living by Unshakable Grace Book" style="width:100%; height:100%; object-fit:cover;">
+          </div>
           <div class="info">
             <div class="t">Living by Unshakable Grace</div>
-            <div class="s">Book by Bishop Tony · 4.2 MB PDF</div>
+            <div class="s">Book by Bishop Tony · Devotional Series</div>
           </div>
+          <span style="font-family:var(--font-mono); font-size:10px; font-weight:600; color:var(--ink-1); background:var(--app-surface-2); padding:4px 8px; border-radius:10px;">Preview</span>
         </div>
       </div>
     </div>
@@ -2287,16 +2304,16 @@
         </div>
         <div class="post">
           <div class="meta">
-            <div class="avatar" style="background:#8A8890;"></div>
+            <img src="assets/team-logo.png" class="avatar" style="object-fit:cover; border:1px solid var(--line);">
             <div class="who">
               <div class="name">TEAM International</div>
               <div class="sub">2 DAYS AGO</div>
             </div>
           </div>
-          <div class="body">Replay of last Sunday's message, "Faith Over Fear," is now up. Tap Library to catch up.
+          <div class="body">Replay of last Sunday's message, "Faith Over Fear," is now up. Tap to watch video or explore Bishop Tony's book in Library.
           </div>
-          <div class="media alt" data-label="Sermon replay · 42 min">
-            <div class="play-badge" onclick="setTab('view-library')"><svg viewBox="0 0 24 24">
+          <div class="media alt" data-label="Sermon replay · Official Video" onclick="openVideoPlayer('Faith Over Fear sermon replay','Videos/team video.mp4')" style="cursor:pointer;">
+            <div class="play-badge"><svg viewBox="0 0 24 24">
                 <path d="M9 7l9 5-9 5V7Z" fill="var(--live-red)" />
               </svg></div>
           </div>
@@ -2976,6 +2993,85 @@
         TAP ANYWHERE TO CLOSE — DEMO CONTENT</div>
     </div>
 
+    <!-- VIDEO PLAYER OVERLAY MODAL -->
+    <div class="overlay" id="screen-video-player" style="background:#09080D; color:#fff;">
+      <div class="ov-header" style="border-bottom:1px solid rgba(255,255,255,0.1);">
+        <div class="ov-back" onclick="closeVideoPlayer()" style="background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.15);"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+            <path d="M15 5l-7 7 7 7" />
+          </svg></div>
+        <div>
+          <div class="ov-title" id="videoPlayerTitle" style="color:#fff;">Team International Video</div>
+          <div class="ov-sub" style="color:#A6A4AC;">OFFICIAL MEDIA BROADCAST</div>
+        </div>
+      </div>
+      <div class="scroll" style="padding:16px;">
+        <div style="position:relative; width:100%; border-radius:18px; overflow:hidden; background:#000; box-shadow:0 14px 36px rgba(0,0,0,0.6); margin-bottom:16px;">
+          <video id="mainVideoPlayer" src="Videos/team video.mp4" controls playsinline style="width:100%; display:block; aspect-ratio:16/9; object-fit:contain;"></video>
+        </div>
+        <div style="background:#18161F; border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:16px; margin-bottom:16px;">
+          <h3 style="font-family:var(--font-display); font-size:16px; font-weight:700; color:#fff; margin-bottom:6px;" id="videoPlayerName">Sunday Worship — Bishop Tony</h3>
+          <div style="display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px; color:#A6A4AC; margin-bottom:12px;">
+            <span style="display:inline-flex; align-items:center; gap:4px; color:var(--live-red);"><i style="width:6px; height:6px; border-radius:50%; background:var(--live-red); display:inline-block;"></i> Official Video</span>
+            <span>·</span>
+            <span>24.6 MB MP4</span>
+          </div>
+          <p style="font-size:12.5px; color:#D8D6DC; line-height:1.5;">
+            Experience the inspiring message and worship session with Bishop Tony and TEAM International. Share with friends and family!
+          </p>
+          <div style="display:flex; gap:10px; margin-top:14px;">
+            <button onclick="showToast(null,'Video saved for offline viewing!')" style="flex:1; background:rgba(255,255,255,0.12); color:#fff; border:none; padding:10px; border-radius:12px; font-family:var(--font-mono); font-size:11px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </button>
+            <button onclick="shareLiveSession(this)" style="flex:1; background:#fff; color:#0E0E10; border:none; padding:10px; border-radius:12px; font-family:var(--font-mono); font-size:11px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0E0E10" stroke-width="2"><circle cx="6" cy="12" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="18" cy="18" r="2.3"/><path d="M8.1 10.8 15.9 7.2M8.1 13.2 15.9 16.8"/></svg>
+              Share Video
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOK DETAIL OVERLAY MODAL -->
+    <div class="overlay" id="screen-book-detail">
+      <div class="ov-header">
+        <div class="ov-back" onclick="closeOverlay()"><svg viewBox="0 0 24 24" fill="none" stroke="#18161E" stroke-width="2">
+            <path d="M15 5l-7 7 7 7" />
+          </svg></div>
+        <div>
+          <div class="ov-title">Book Preview</div>
+          <div class="ov-sub">PUBLICATION BY BISHOP TONY</div>
+        </div>
+      </div>
+      <div class="scroll" style="padding:20px;">
+        <div style="display:flex; flex-direction:column; align-items:center; text-align:center; margin-bottom:20px;">
+          <div style="width:140px; height:190px; border-radius:14px; overflow:hidden; box-shadow:0 16px 36px -10px rgba(0,0,0,0.35); border:1px solid var(--line); margin-bottom:16px;">
+            <img src="assets/book.png" alt="Book Cover" style="width:100%; height:100%; object-fit:cover;">
+          </div>
+          <h2 style="font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--text-hi); margin-bottom:4px;" id="bookDetailTitle">Faith Over Fear: Walking in Victory</h2>
+          <div style="font-family:var(--font-mono); font-size:11px; color:var(--ink-1); font-weight:600; margin-bottom:10px;">By Bishop Tony</div>
+          <span style="font-family:var(--font-mono); font-size:9.5px; background:var(--ink-1); color:#fff; padding:4px 10px; border-radius:12px; text-transform:uppercase; letter-spacing:0.06em;">Official eBook & Hardcover</span>
+        </div>
+
+        <div style="background:var(--app-surface); border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:16px;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:13.5px; color:var(--text-hi); margin-bottom:6px;">Synopsis & Overview</div>
+          <p style="font-size:12.5px; color:var(--text-mid); line-height:1.55;" id="bookDetailDesc">
+            In this transformative publication, Bishop Tony provides practical spiritual wisdom, scriptures, and personal insights on overcoming anxiety, standing firm in grace, and fulfilling your divine purpose in Christ.
+          </p>
+        </div>
+
+        <button class="pay-btn-main" onclick="showToast(null,'Opening PDF Reader…')" style="margin-top:0; margin-bottom:10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          Read PDF Online
+        </button>
+
+        <button class="pay-btn-main" onclick="showToast(null,'Downloading book to device…')" style="background:var(--app-surface); color:var(--text-hi); border:1px solid var(--line); margin-top:0; box-shadow:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download eBook (PDF)
+        </button>
+      </div>
+    </div>
+
     <div class="tabbar">
       <button class="tab on" data-view="view-home">
         <svg viewBox="0 0 24 24">
@@ -3055,6 +3151,15 @@
       document.querySelector(`.tab[data-view="${viewId}"]`).classList.add('on');
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.getElementById(viewId).classList.add('active');
+
+      const reelVid = document.getElementById('reelVideo');
+      if (reelVid) {
+        if (viewId === 'view-reels') {
+          reelVid.play().catch(()=>{});
+        } else {
+          reelVid.pause();
+        }
+      }
     }
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
@@ -3063,6 +3168,60 @@
       });
     });
     function goToLive() { setTab('view-live'); }
+
+    /* ===== VIDEO PLAYER & MEDIA HELPERS ===== */
+    function openVideoPlayer(title, src) {
+      if (title) {
+        document.getElementById('videoPlayerName').textContent = title;
+        document.getElementById('videoPlayerTitle').textContent = title;
+      }
+      const player = document.getElementById('mainVideoPlayer');
+      if (src && player) player.src = src;
+      openOverlay('screen-video-player');
+      if (player) player.play().catch(()=>{});
+    }
+
+    function closeVideoPlayer() {
+      const player = document.getElementById('mainVideoPlayer');
+      if (player) player.pause();
+      closeOverlay();
+    }
+
+    function openBookDetail(title, desc) {
+      if (title) document.getElementById('bookDetailTitle').textContent = title;
+      if (desc) document.getElementById('bookDetailDesc').textContent = desc;
+      openOverlay('screen-book-detail');
+    }
+
+    function toggleReelAudio(e) {
+      if (e) e.stopPropagation();
+      const vid = document.getElementById('reelVideo');
+      if (!vid) return;
+      vid.muted = !vid.muted;
+      const lbl = document.getElementById('reelAudioLabel');
+      if (lbl) lbl.textContent = vid.muted ? 'Muted' : 'Unmuted';
+      showToast(null, vid.muted ? 'Reel audio muted' : 'Reel audio unmuted');
+    }
+
+    function toggleLiveMediaMode() {
+      const vid = document.getElementById('liveStreamVideo');
+      const wave = document.getElementById('wave');
+      const btn = document.getElementById('liveMediaModeBtn');
+      if (!vid) return;
+      if (vid.style.display === 'none') {
+        vid.style.display = 'block';
+        if (wave) wave.style.display = 'none';
+        if (btn) btn.textContent = '🎙️ Switch to Audio Wave';
+        vid.play().catch(()=>{});
+        showToast(null, 'Switched to Live Video Feed');
+      } else {
+        vid.style.display = 'none';
+        if (wave) wave.style.display = 'flex';
+        if (btn) btn.textContent = '📹 Switch to Video';
+        vid.pause();
+        showToast(null, 'Switched to Audio Stream');
+      }
+    }
 
     function openChat(name, code) {
       document.getElementById('chatTitle').textContent = name;
