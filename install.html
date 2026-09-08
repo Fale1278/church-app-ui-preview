@@ -17,13 +17,13 @@
     padding:32px 24px; text-align:center;
   }
   .mark{
-    width:72px; height:72px; border-radius:20px; background:#fff;
+    width:76px; height:76px; border-radius:22px; background:#fff;
     display:flex; align-items:center; justify-content:center; margin-bottom:24px;
-    box-shadow: 0 10px 25px rgba(255,255,255,0.15); overflow:hidden; padding:4px;
+    box-shadow: 0 10px 25px rgba(255,255,255,0.15); overflow:visible; padding:4px; position:relative;
   }
-  .mark img{ width:100%; height:100%; object-fit:contain; border-radius:16px; }
-  h1{ font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:700; margin-bottom:8px; }
-  h1 .sub-title { font-size:16px; font-weight:400; color:#A6A4AC; font-family:'Inter', sans-serif; display:inline-block; margin-left:4px; }
+  .mark img{ width:100%; height:100%; object-fit:contain; border-radius:18px; }
+  h1{ font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:700; margin-bottom:8px; display:flex; flex-direction:column; align-items:center; }
+  h1 .sub-title { font-size:16px; font-weight:400; color:#A6A4AC; font-family:'Inter', sans-serif; display:block; margin-top:4px; }
   p{ color:#A6A4AC; font-size:14px; max-width:320px; line-height:1.55; margin-bottom:32px; }
   #installBtn{
     background:#fff; color:#0E0E10; border:none; padding:16px 36px; border-radius:30px;
@@ -49,7 +49,12 @@
 </head>
 <body>
 
-  <div class="mark"><img src="assets/team-logo.png" alt="Team International Logo"></div>
+  <div class="mark">
+    <img src="assets/team-logo.png" alt="Team International Logo">
+    <div style="position:absolute; bottom:-4px; right:-4px; width:28px; height:28px; border-radius:10px; background:#0E0E10; border:2px solid #fff; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#fff" stroke-width="2.6"><path d="M12 2v20M2 12h20"/></svg>
+    </div>
+  </div>
   <h1>Team International <span class="sub-title">(With Bishop Tony)</span></h1>
   <p>Install the app to your home screen — opens full-screen, just like any other app.</p>
 
